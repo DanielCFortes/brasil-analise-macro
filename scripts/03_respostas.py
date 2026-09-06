@@ -8,16 +8,13 @@ Consolida tudo que a apresentação consome, para que o deck seja reprodutível
 a partir do painel e não dependa de cálculo feito à mão.
 """
 import os, json, pandas as pd, numpy as np
-from comum import (PROC, MIN_OBS, carrega_painel, serie,
+from comum import (PROC, RAW, MIN_OBS, carrega_painel, serie,
                    variacao, mediana_grupo, grupo_filtrado, n_obs)
 
 LAC = ['MEX', 'COL', 'CHL', 'PER', 'ARG', 'ECU']
 G20 = ['IND', 'IDN', 'ZAF', 'TUR', 'MEX']
 EXP = ['CHL', 'COL', 'PER', 'ZAF', 'IDN']
 
-NOMES = {'BRA': 'Brasil', 'MEX': 'Mexico', 'COL': 'Colombia', 'CHL': 'Chile',
-         'PER': 'Peru', 'ARG': 'Argentina', 'ECU': 'Equador', 'IND': 'India',
-         'IDN': 'Indonesia', 'ZAF': 'Africa do Sul', 'TUR': 'Turquia', 'CHN': 'China'}
 
 # pergunta, codigo, rotulo, unidade, casas decimais
 IND_RESP = [
@@ -84,13 +81,6 @@ def main():
                                for y in range(2002, 2027)}
                            for n, s in [('bra', bra_idx), ('lac', lac_idx), ('g20', g20_idx)]}
 
-    # --- grade de disponibilidade: anos OBSERVADOS, sem interpolação ---
-    D['grid'] = []
-    for iso, nome in NOMES.items():
-        anos = set(df[(df.indicador == 'SI.POV.GINI') & (df.iso == iso)].ano)
-        marca = [1 if y in anos else 0 for y in range(2002, 2025)]
-        D['grid'].append({'pais': nome, 'anos': marca, 'n': sum(marca)})
-
     # --- respostas às cinco perguntas: 2002 contra o último ano disponível ---
     D['ans'] = []
     for q, code, rotulo, unid, dec in IND_RESP:
@@ -123,6 +113,31 @@ def main():
     # e China não têm dado FIES, então essa mediana é fraca e é rotulada como tal.
     g20f = pd.DataFrame({i: pd.Series(D['fome'][i]) for i in ['IDN', 'ZAF'] if i in D['fome']})
     D['fome']['G20_MED'] = {int(k): round(v, 1) for k, v in g20f.median(axis=1).items()}
+
+    # --- Big Mac Index: evolutivo (preço em US$) e comparativo (valorização cambial) ---
+    # Fonte: The Economist (github.com/TheEconomist/big-mac-data), licença aberta.
+    # Extraído manualmente via GitHub em 06/09/2026, fora do pipeline automatizado:
+    # a API do World Bank está bloqueada neste ambiente. Checkpoints discretos, não
+    # série anual: 2002, 2012, 2018, 2020, 2022, 2025. Equador não tem série no Big
+    # Mac Index (não entra na mediana da América Latina). Índia só entra a partir do
+    # checkpoint de 2012, a série não cobre 2002.
+    bm = pd.read_csv(os.path.join(RAW, 'bigmac_raw.csv'))
+    D['bigmac'] = {}
+    for metrica, col in [('preco', 'dollar_price'), ('valorizacao', 'val_pct')]:
+        linhas = []
+        for cp, g in bm.groupby('checkpoint'):
+            bra = g.loc[g.iso == 'BRA', col]
+            lac = g.loc[g.iso.isin([i for i in LAC if i != 'ECU']), col]
+            grp20 = g.loc[g.iso.isin(G20), col]
+            linhas.append({
+                'checkpoint': int(cp),
+                'bra': round(float(bra.iloc[0]), 2) if len(bra) else None,
+                'lac': round(float(lac.median()), 2) if len(lac) else None,
+                'lac_n': int(len(lac)),
+                'g20': round(float(grp20.median()), 2) if len(grp20) else None,
+                'g20_n': int(len(grp20)),
+            })
+        D['bigmac'][metrica] = sorted(linhas, key=lambda r: r['checkpoint'])
 
     # --- efeito da regra de cobertura sobre o resultado do boom ---
     todos = [variacao(serie(df, 'SI.POV.DDAY', i), 2003, 2011) for i in G20]

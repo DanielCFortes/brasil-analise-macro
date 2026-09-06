@@ -80,19 +80,21 @@ tr.hl td{background:rgba(232,163,61,.07)}
 .kv .lbl{font-size:.76rem;color:var(--mute)}
 .grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:2.2vw 2.4vw}
 
+/* perguntas numeradas, usado como header e repetido como eyebrow nos slides de dado */
+.qlist{display:flex;flex-direction:column;margin-top:.4vh}
+.qitem{display:flex;gap:1.2em;align-items:flex-start;padding:.85em 0;border-top:1px solid var(--line)}
+.qitem:last-child{border-bottom:1px solid var(--line)}
+.qnum{font-family:var(--mono);font-weight:500;font-size:1.6rem;color:var(--br);
+  min-width:1.5em;line-height:1.15}
+.qitem.w .qnum{color:var(--dim);font-size:1.05rem}
+.qitem b{font-size:1.02rem}
+.qtag{align-self:flex-start;font-family:var(--mono);font-size:.68rem;color:var(--br);
+  letter-spacing:.04em;border:1px solid rgba(232,163,61,.4);border-radius:3px;
+  padding:.15em .5em;margin-bottom:.7em}
+
 .note{border-left:2px solid var(--warn);padding:.15em 0 .15em 1em;color:#CBBDB4;
   font-size:.92rem;line-height:1.55;max-width:62ch}
 .ok{border-left-color:var(--grp)}
-
-/* availability grid */
-.avail{display:grid;grid-template-columns:auto repeat(23,1fr) auto;gap:3px;align-items:center;
-  font-size:.72rem;max-width:960px}
-.avail .nm{font-size:.76rem;color:#D3D0C7;padding-right:.7em;white-space:nowrap}
-.avail .c{aspect-ratio:1;background:rgba(255,255,255,.055);border-radius:1px;min-height:11px}
-.avail .c.f{background:var(--grp)}
-.avail .c.f.br{background:var(--br)}
-.avail .tot{font-family:var(--mono);font-size:.72rem;color:var(--mute);padding-left:.7em}
-.avail .tot.low{color:var(--warn)}
 
 .defs{margin-top:1em;padding-top:.85em;border-top:1px solid var(--line);
   display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.5em 2.4em;max-width:1000px}
@@ -115,8 +117,6 @@ a{color:var(--grp)}
 @media (max-width:720px){
   .slide{padding:4vh 6vw 9vh}
   .body{flex-direction:column;gap:2.2vh}
-  .avail{font-size:.6rem;gap:2px}
-  .avail .nm{font-size:.62rem}
 }
 </style>
 </head>
@@ -213,23 +213,19 @@ S.push(`
 `);
 
 S.push(`
-<h2>Cinco perguntas independentes</h2>
-<p style="margin-bottom:1.6vh">Cada uma pode ter resposta diferente. Não há tentativa de unificá-las em narrativa única.</p>
-<div class="body"><div class="col">
-<ul class="rule">
-<li><b>1. O Brasil ficou mais rico?</b> <span class="mute">PIB per capita, produtividade, investimento, emprego</span></li>
-<li><b>2. Quem capturou o crescimento?</b> <span class="mute">Gini, renda dos 40% mais pobres, participação do 1%, Palma</span></li>
-<li><b>3. A vida da população pobre melhorou?</b> <span class="mute">Pobreza, fome, mortalidade infantil, saneamento, escolaridade</span></li>
-</ul>
-</div><div class="col">
-<ul class="rule">
-<li><b>4a. O cidadão ficou mais protegido?</b> <span class="mute">Previdência, transferência de renda, direitos do trabalho</span></li>
-<li><b>4b. E mais seguro?</b> <span class="mute">Homicídios, violência policial, encarceramento, direitos civis</span></li>
-<li><b>5. Melhor ou pior que países comparáveis?</b> <span class="mute">Desempenho diferencial contra três grupos</span></li>
-<li><b>Transversal. A que custo?</b> <span class="mute">Dívida, resultado primário, gasto social</span></li>
-</ul>
-</div></div>
-<div class="note" style="margin-top:2vh">As perguntas 4a e 4b são separadas de propósito. Cobertura previdenciária e taxa de homicídios não são manifestações do mesmo fenômeno.</div>
+<h2>As perguntas que guiam a análise</h2>
+<p style="margin-bottom:.4vh">Cada número aqui volta a aparecer como marcador em todo slide de dado e de resposta que aprofunda essa pergunta. Cada uma pode ter resposta diferente; não há tentativa de unificá-las em narrativa única.</p>
+<div class="qlist">
+<div class="qitem"><div class="qnum">1</div><div><b>O Brasil ficou mais rico?</b> <span class="mute">PIB per capita, produtividade, Big Mac Index (evolutivo e comparativo), investimento, emprego. Exportação, acesso a novos mercados e agronegócio pendentes de extração.</span></div></div>
+<div class="qitem"><div class="qnum">2</div><div><b>Quem capturou o crescimento?</b> <span class="mute">Gini, renda dos 40% mais pobres, participação do 1%, Palma</span></div></div>
+<div class="qitem"><div class="qnum">3</div><div><b>A vida da população pobre melhorou?</b> <span class="mute">Pobreza, fome, mortalidade infantil, saneamento, escolaridade. Educação por nível (primário, médio, superior), analfabetismo, cobertura de saúde e qualidade da alimentação pendentes de extração.</span></div></div>
+<div class="qitem"><div class="qnum">4a</div><div><b>O cidadão ficou mais protegido?</b> <span class="mute">Previdência, transferência de renda, direitos do trabalho</span></div></div>
+<div class="qitem"><div class="qnum">4b</div><div><b>E mais seguro?</b> <span class="mute">Homicídios, violência policial, encarceramento, direitos civis</span></div></div>
+<div class="qitem"><div class="qnum">5</div><div><b>Melhor ou pior que países comparáveis?</b> <span class="mute">Desempenho diferencial contra três grupos, em toda pergunta acima</span></div></div>
+<div class="qitem"><div class="qnum">T1</div><div><b>Transversal. A que custo?</b> <span class="mute">Dívida, resultado primário, gasto social</span></div></div>
+<div class="qitem w"><div class="qnum">T2</div><div><b>Transversal. Soberania e recursos naturais.</b> <span class="mute">Dependência comercial, diversificação de parceiros, desmatamento. Nenhum indicador extraído ainda — ver limitações.</span></div></div>
+</div>
+<div class="note" style="margin-top:1.6vh">As perguntas 4a e 4b são separadas de propósito. Cobertura previdenciária e taxa de homicídios não são manifestações do mesmo fenômeno.</div>
 `);
 
 S.push(`
@@ -305,6 +301,7 @@ S.push(`
 `);
 
 S.push(`
+<span class="qtag">Pergunta 3</span>
 <h2>Pobreza extrema, 2002 a 2024</h2>
 <p class="mute" style="font-size:.86rem">% da população abaixo de US$ 3,00 por dia em PPC de 2021, linha revisada pelo Banco Mundial em junho de 2025</p>
 <div class="chartwrap">__CH_POV__</div>
@@ -322,6 +319,7 @@ S.push(`
 `);
 
 S.push(`
+<span class="qtag">Pergunta 2</span>
 <h2>Desigualdade e participação da base</h2>
 <div class="body"><div class="col">
 <h3>Índice de Gini</h3>
@@ -344,6 +342,7 @@ S.push(`
 `);
 
 S.push(`
+<span class="qtag">Pergunta 1</span>
 <h2>Renda cresceu. Produtividade, muito menos.</h2>
 <p class="mute" style="font-size:.86rem">Índice com base 2002 = 100: cada linha mostra quanto o indicador cresceu desde 2002, não o valor absoluto. Grupos em mediana, país indexado antes de entrar na mediana.</p>
 <div class="body"><div class="col">
@@ -368,6 +367,32 @@ S.push(`
 `);
 
 S.push(`
+<span class="qtag">Pergunta 1</span>
+<h2>Big Mac Index: o real segue mais barato que os pares</h2>
+<p class="mute" style="font-size:.86rem">Checkpoints discretos de 2002 a 2025, não série anual. A reta entre pontos é só a distância no tempo — não há interpolação de ano intermediário.</p>
+<div class="body"><div class="col">
+<h3>Preço do Big Mac em US$</h3>
+<div class="chartwrap">__CH_BM_PRECO__</div>
+</div><div class="col">
+<h3>Valorização cambial vs. dólar <span class="mute">%, 0 = na paridade</span></h3>
+<div class="chartwrap">__CH_BM_VAL__</div>
+</div></div>
+<div class="legend" style="margin-top:.8vh">
+<span><b style="background:var(--br)"></b>Brasil</span>
+<span><b style="background:var(--grp)"></b>Mediana da América Latina</span>
+<span><b style="background:var(--grp2)"></b>Mediana do G20 emergentes, sem China</span>
+</div>
+<p style="margin-top:1.2vh">Em 2025 o real está <span class="num">30%</span> desvalorizado frente ao dólar pelo critério do Big Mac, patamar parecido ao de 2002 (<span class="num">35%</span>). A mediana latino americana está bem menos desvalorizada que em 2002 (<span class="num">21%</span> ante <span class="num">5%</span>). A mediana do G20 sem China é a mais desvalorizada do grupo em 2025 (<span class="num">52%</span>), puxada por Índia, Indonésia e África do Sul, mas o seu valor de 2002 não inclui a Índia e não é comparável ao de 2025 sem essa ressalva.</p>
+<div class="defs">
+<div><b>Big Mac Index.</b> Criado pela revista The Economist em 1986. Compara o preço do mesmo produto, o sanduíche Big Mac, convertido para dólar em cada país. Se o preço em dólar é menor que nos EUA, a leitura padrão é que a moeda local está desvalorizada frente ao dólar por paridade do poder de compra.</div>
+<div><b>Por que importa aqui.</b> É um proxy simples e de alta frequência de competitividade cambial e custo de vida em dólar, junto ao PIB per capita e à produtividade da pergunta 1.</div>
+<div><b>Fonte e extração.</b> The Economist, dados abertos publicados no GitHub. Extraído manualmente em 06/09/2026, fora do pipeline automatizado — a API do World Bank está bloqueada neste ambiente. Por isso os checkpoints são pontuais, não anuais.</div>
+<div><b>Limite de cobertura.</b> Equador não tem série no Big Mac Index e fica fora da mediana latino americana. Índia só entra a partir do checkpoint de 2012; o de 2002 usa 4 dos 5 países do G20 sem China, o mesmo tipo de mudança de composição discutido na pergunta 2.</div>
+</div>
+`);
+
+S.push(`
+<span class="qtag">Pergunta 3</span>
 <h2>Indicadores sociais, mesma base comparativa</h2>
 <p class="mute" style="font-size:.86rem">Brasil, mediana da América Latina e mediana do G20 emergentes sem China, quando o indicador tem dado para os três.</p>
 <div class="body"><div class="col">
@@ -395,6 +420,7 @@ S.push(`
 `);
 
 S.push(`
+<span class="qtag">Pergunta 3</span>
 <h2>Fome: a subida e a descida mais bruscas da série</h2>
 <p class="mute" style="font-size:.86rem">Insegurança alimentar moderada ou grave, % da população. Escala FIES da FAO. Série começa em 2015.</p>
 <div class="chartwrap">__CH_FOME__</div>
@@ -434,8 +460,13 @@ S.push(`
 S.push(`
 <div class="eyebrow">Pergunta 1</div>
 <h2>O Brasil ficou mais rico?</h2>
-<p class="mute" style="font-size:.86rem">Variação absoluta e, entre parênteses, a variação proporcional. Verde é melhora, vermelho é piora.</p>
+<p class="mute" style="font-size:.86rem">Barra é a variação em pontos (ou nível, quando em US$), entre parênteses a variação proporcional. Verde é melhora, vermelho é piora, escala própria por indicador.</p>
 <div class="chartwrap">__ANS_P1__</div>
+<div class="legend" style="margin-top:.6vh">
+<span><b style="background:var(--br)"></b>Brasil</span>
+<span><b style="background:var(--grp)"></b>América Latina</span>
+<span><b style="background:var(--grp2)"></b>G20 emergentes</span>
+</div>
 <p style="margin-top:1.2vh"><b>Sim, mas pouco e mais devagar que os pares.</b> A renda por habitante subiu 43% em 23 anos, contra 62% da mediana latino americana e 144% dos demais emergentes. A produtividade subiu 25%, contra 115% do grupo emergente. O investimento sobre PIB <b>caiu</b>, enquanto subiu em todos os grupos de comparação.</p>
 <div class="defs">
 <div><b>O ponto forte.</b> O desemprego caiu 4,7 pontos, redução proporcional muito maior que a dos pares. O Brasil colocou gente para trabalhar.</div>
@@ -447,6 +478,11 @@ S.push(`
 <div class="eyebrow">Pergunta 2</div>
 <h2>Quem capturou o crescimento?</h2>
 <div class="chartwrap">__ANS_P2__</div>
+<div class="legend" style="margin-top:.6vh">
+<span><b style="background:var(--br)"></b>Brasil</span>
+<span><b style="background:var(--grp)"></b>América Latina</span>
+<span><b style="background:var(--grp2)"></b>G20 emergentes</span>
+</div>
 <p style="margin-top:1.2vh"><b>A base da pirâmide.</b> Os três indicadores apontam na mesma direção: o Gini cai 8,1 pontos, os 40% mais pobres saem de 8,5% para 12% da renda total, e os 10% mais ricos recuam de 46,1% para 39,3%. A América Latina teve movimento parecido; os demais emergentes foram na direção oposta, concentrando renda.</p>
 <div class="defs">
 <div><b>A ressalva que pode inverter isso.</b> Todos esses números vêm de pesquisa domiciliar, que subestima sistematicamente a renda do topo. A participação do 1% mais rico apurada por dado tributário, que ainda não foi extraída do WID.world, costuma mostrar trajetória bem mais estável. É perfeitamente possível que Gini caia e concentração no topo não mude.</div>
@@ -458,6 +494,11 @@ S.push(`
 <div class="eyebrow">Pergunta 3</div>
 <h2>A vida da população pobre melhorou?</h2>
 <div class="chartwrap">__ANS_P3__</div>
+<div class="legend" style="margin-top:.6vh">
+<span><b style="background:var(--br)"></b>Brasil</span>
+<span><b style="background:var(--grp)"></b>América Latina</span>
+<span><b style="background:var(--grp2)"></b>G20 emergentes</span>
+</div>
 <p style="margin-top:1.2vh"><b>Sim, e essa é a resposta mais forte da análise.</b> Pobreza extrema cai de 17,5% para 3%. Mortalidade infantil cai 55%, mais que a mediana latino americana. Saneamento avança 18 pontos. A conclusão do ensino médio entre adultos mais que dobra, com avanço muito maior que o dos dois grupos.</p>
 <div class="defs">
 <div><b>A exceção.</b> Insegurança alimentar termina em 13,5%, praticamente onde começou em 2015, depois de chegar a 22,1% em 2021. O nível é o mesmo, mas a trajetória não foi plana. A mediana latino americana piorou 50% no mesmo intervalo, então o desempenho relativo brasileiro é bom mesmo com resultado absoluto estagnado.</div>
@@ -469,6 +510,11 @@ S.push(`
 <div class="eyebrow">Perguntas 4 e 5</div>
 <h2>Proteção, segurança e o veredito comparativo</h2>
 <div class="chartwrap">__ANS_P4__</div>
+<div class="legend" style="margin-top:.6vh">
+<span><b style="background:var(--br)"></b>Brasil</span>
+<span><b style="background:var(--grp)"></b>América Latina</span>
+<span><b style="background:var(--grp2)"></b>G20 emergentes</span>
+</div>
 <div class="body" style="margin-top:1.6vh"><div class="col">
 <h3 style="color:var(--warn)">4a. Proteção: sem resposta</h3>
 <p>A cobertura de proteção social tem entre 1 e 16 observações por país, e a China tem uma. Fiscalização trabalhista, direitos sindicais e trabalho análogo à escravidão não foram extraídos. <b>Esta pergunta continua aberta e é a maior lacuna do trabalho.</b></p>
@@ -477,15 +523,6 @@ S.push(`
 <p>Homicídios caem de 27,2 para 19,3 por 100 mil, redução de 29%, enquanto a mediana latino americana quase dobrou. Ressalva obrigatória: sem a série de mortes por causa indeterminada do DataSUS, parte dessa queda pode ser reclassificação.</p>
 </div></div>
 <div class="note" style="margin-top:1.4vh"><b>5. O Brasil fez melhor ou pior que os pares?</b> Pior em crescimento, produtividade e investimento. Melhor em distribuição, educação e segurança. Equivalente em pobreza e mortalidade infantil. Não existe um veredito único, e a v3 previu exatamente isso ao separar as perguntas.</div>
-`);
-
-S.push(`
-<div class="eyebrow">A limitação central</div>
-<h2>A série não existe. O que existe são pontos com buracos.</h2>
-<p class="mute" style="font-size:.86rem;margin-bottom:1.6vh">Anos com dado <b>observado</b> de Gini e pobreza, 2002 a 2024. Cada célula preenchida é uma pesquisa domiciliar realizada.</p>
-__AVAIL__
-<div class="legend"><span><b style="background:var(--br)"></b>Brasil</span><span><b style="background:var(--grp)"></b>comparadores</span><span><b style="background:rgba(255,255,255,.09)"></b>sem dado</span></div>
-<div class="note" style="margin-top:1.8vh">A Índia tem quatro pontos em 22 anos. A África do Sul tem cinco. <b>A mediana do grupo G20 emergentes para indicadores de distribuição é, na prática, interpolação.</b></div>
 `);
 
 S.push(`
@@ -521,9 +558,11 @@ S.push(`
 <div class="body"><div class="col stack">
 <h3 style="color:var(--grp)">Tier 1 pendente</h3>
 <p class="mute">WID.world (participação do 1%, Palma, P90/P10) · UNODC direto · V&#8209;Dem · ITUC Global Rights Index · World Prison Brief · IMF WEO · OMS, excesso de mortalidade para o benchmark de pandemia · Penn World Table</p>
+<p class="mute" style="margin-top:.6em">Bloqueado neste ambiente por política de rede, não por falta de fonte: exportação de bens e serviços, valor agregado do agronegócio, educação por nível (primário, médio, superior), analfabetismo, dívida externa como proxy de soberania e área florestal (desmatamento). Todos têm código pronto no World Bank WDI, na fila assim que a API voltar a responder.</p>
 </div><div class="col stack">
 <h3 style="color:var(--warn)">Tier 2 pendente, integralmente</h3>
 <p class="mute">IBGE e PNAD Contínua · DataSUS e SIM · INEP · SNIS · CadÚnico · BCB · FBSP · Tesouro · Receita Federal · MTE · SISDEPEN</p>
+<p class="mute" style="margin-top:.6em">É aqui que entrariam cobertura do SUS e qualidade da alimentação no Brasil. São dado só nacional, sem equivalente internacional harmonizado, então não podem entrar nos gráficos comparativos Brasil‑vs‑pares sem quebrar a regra Tier 1 / Tier 2 da pergunta anterior.</p>
 </div></div>
 <div class="note" style="margin-top:2.4vh">Consequência prática: <b>não existe nenhuma desagregação por raça, região, gênero ou situação do domicílio nos dados atuais.</b> Numa análise sobre desigualdade brasileira, essa desagregação é frequentemente o próprio achado, e ela está no bloco obrigatório para publicação.</div>
 `);
@@ -577,45 +616,62 @@ S.push(`
 <li>Financiamento e vínculos institucionais declarados</li>
 </ul>
 </div></div>
-<p class="mute" style="margin-top:2.6vh;font-size:.82rem">Fonte dos dados apresentados: World Bank API, WDI e PIP. Extração em 06/09/2026, base atualizada em 13/07/2026.</p>
+<p class="mute" style="margin-top:2.6vh;font-size:.82rem">Fonte dos dados apresentados: World Bank API, WDI e PIP, extração em 06/09/2026, base atualizada em 13/07/2026. Big Mac Index: The Economist, extração manual em 06/09/2026.</p>
 `);
 
 /* ---------- render ---------- */
-function availHTML(){
-  let h='<div class="avail">';
-  h+='<div></div>';
-  for(let y=2002;y<=2024;y++) h+='<div style="font-family:IBM Plex Mono;font-size:.55rem;color:#5E7480;text-align:center">'+(y%5===0||y===2002?String(y).slice(2):'')+'</div>';
-  h+='<div></div>';
-  D.grid.forEach(g=>{
-    h+='<div class="nm">'+g.pais+'</div>';
-    g.anos.forEach(v=>{h+='<div class="c'+(v?' f':'')+(g.pais==='Brasil'&&v?' br':'')+'"></div>';});
-    h+='<div class="tot'+(g.n<12?' low':'')+'">'+g.n+'</div>';
-  });
-  return h+'</div>';
-}
 
 function fmt(v,d,suf){ if(v===null||v===undefined) return 'n/d';
   return (v>0?'+':'')+Number(v).toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d})+(suf||''); }
-function cellDelta(pp,rel,d,inv){
-  if(pp===null||pp===undefined) return '<td class="n mute">n/d</td>';
-  const bom = inv ? pp>0 : pp<0;
-  return '<td class="n '+(bom?'good':'bad')+'">'+fmt(pp,d)+'<span class="mute" style="font-size:.82em"> ('+fmt(rel,0,'%')+')</span></td>';
-}
-function ansTable(q, inv){
-  const rows = D.ans.filter(r=>r.q===q);
-  const janelaComum = rows.every(r=>r.anos===rows[0].anos);
-  let h='<div style="overflow-x:auto"><table style="min-width:600px"><tr><th>Indicador</th><th style="text-align:right">Brasil, início e fim'
-    +(janelaComum?' <span class="mute" style="font-weight:400">('+rows[0].anos.replace('-','–')+')</span>':'')
-    +'</th><th style="text-align:right">Δ Brasil</th><th style="text-align:right">Δ América Latina</th><th style="text-align:right">Δ G20 emergentes</th></tr>';
-  rows.forEach(r=>{
-    const d = (r.unid==='int$')?0:1;
-    const up = inv && inv.indexOf(r.ind)>=0;
-    const janela = janelaComum ? '' : ' <span class="mute" style="font-size:.82em">('+r.anos.replace('-','–')+')</span>';
-    h+='<tr><td>'+r.ind+' <span class="mute" style="font-size:.85em">'+r.unid+'</span></td>'
-      +'<td class="n mute">'+Number(r.br_ini).toLocaleString('pt-BR')+' → '+Number(r.br_fim).toLocaleString('pt-BR')+janela+'</td>'
-      +cellDelta(r.br_pp,r.br_rel,d,up)+cellDelta(r.lac_pp,r.lac_rel,d,up)+cellDelta(r.g20_pp,r.g20_rel,d,up)+'</tr>';
+/* gráfico de build-up: uma linha por indicador (ou por checkpoint), até 3 barras
+   divergindo de zero (Brasil, América Latina, G20 sem China), escala própria por
+   linha porque indicadores diferentes têm unidades e ordens de grandeza diferentes.
+   Substitui a tabela de deltas por algo que se lê por comprimento de barra, não por número. */
+function buildup(rows, opts){
+  opts = opts||{};
+  // valores ficam numa coluna fixa à direita, nunca na ponta da barra: uma barra que
+  // vai até o extremo do domínio colocaria o rótulo fora do canvas.
+  const W=980, rowH=opts.rowH||96, mt=6, ml=6, mr=104, colX=W-mr+12;
+  const H = rowH*rows.length + mt;
+  const barH=15, gap=6, barsW=W-ml-mr;
+  let g='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+(opts.alt||'comparacao')+'">';
+  rows.forEach((r,i)=>{
+    const y0 = mt + i*rowH;
+    const dec = r.dec===undefined?1:r.dec;
+    const items = [['#E8A33D',r.bra],['#6FA8A0',r.lac],['#54707E',r.g20]];
+    const ppvals = items.map(x=>x[1]).filter(v=>v&&v.pp!==null&&v.pp!==undefined).map(v=>v.pp);
+    const lo = Math.min(0,...ppvals), hi = Math.max(0,...ppvals);
+    const span = (hi-lo)||1;
+    const X = v => ml + (v-lo)/span*barsW;
+    const zeroX = X(0);
+    g += '<text x="'+ml+'" y="'+(y0+13)+'" fill="#D3D0C7" font-size="14.5" font-family="IBM Plex Sans" font-weight="500">'+r.label+'</text>';
+    if(r.unit) g += '<text x="'+(ml+r.label.length*7.6+8)+'" y="'+(y0+13)+'" fill="#8598A2" font-size="11" font-family="IBM Plex Sans">'+r.unit+'</text>';
+    if(r.sub) g += '<text x="'+ml+'" y="'+(y0+27)+'" fill="#5E7480" font-size="11" font-family="IBM Plex Mono">'+r.sub+'</text>';
+    const barTop = y0+(r.sub?34:22);
+    g += '<line x1="'+zeroX+'" x2="'+zeroX+'" y1="'+barTop+'" y2="'+(barTop+3*barH+2*gap)+'" stroke="#2A3F4A" stroke-width="1"/>';
+    items.forEach(([color,v],j)=>{
+      const by = barTop+j*(barH+gap);
+      if(!v || v.pp===null||v.pp===undefined){
+        g += '<text x="'+colX+'" y="'+(by+barH-3.5)+'" fill="#5E7480" font-size="11" font-family="IBM Plex Mono">n/d</text>';
+        return;
+      }
+      const bx = X(v.pp);
+      const x = Math.min(zeroX,bx), w = Math.max(Math.abs(bx-zeroX),1.5);
+      g += '<rect x="'+x+'" y="'+by+'" width="'+w+'" height="'+barH+'" fill="'+color+'" rx="2"/>';
+      const bom = r.inv ? v.pp>0 : v.pp<0;
+      const relTxt = (v.rel===null||v.rel===undefined)?'':' <tspan fill="#8598A2" font-size="9.5">('+fmt(v.rel,0,'%')+')</tspan>';
+      g += '<text x="'+colX+'" y="'+(by+barH-3.5)+'" fill="'+(r.inv===undefined?'#C9C5BB':(bom?'#8FC7A8':'#DE8A76'))+'" font-size="11.5" font-family="IBM Plex Mono">'+fmt(v.pp,dec)+relTxt+'</text>';
+    });
   });
-  return h+'</table></div>';
+  return g+'</svg>';
+}
+function ansRows(q, inv){
+  return D.ans.filter(r=>r.q===q).map(r=>({
+    label: r.ind, unit: r.unid, dec: (r.unid==='int$')?0:1,
+    sub: Number(r.br_ini).toLocaleString('pt-BR')+' → '+Number(r.br_fim).toLocaleString('pt-BR')+'  ('+r.anos.replace('-','–')+')',
+    inv: (inv && inv.indexOf(r.ind)>=0),
+    bra: {pp:r.br_pp, rel:r.br_rel}, lac: {pp:r.lac_pp, rel:r.lac_rel}, g20: {pp:r.g20_pp, rel:r.g20_rel},
+  }));
 }
 function fomeChart(){
   const bra=D.fome.BRA, lac=D.fome.LAC_MED, g20=D.fome.G20_MED;
@@ -627,6 +683,16 @@ function ser3(node){
           ser(node.lac,'#6FA8A0','Am. Latina',1.8),
           ser(node.g20,'#54707E','G20 s/ China',1.8,1)];
 }
+/* mesma ideia, para dados por checkpoint (lista de objetos), não por ano */
+function serCk(rows, key, color, name, w, dash){
+  return {data: rows.filter(r=>r[key]!==null&&r[key]!==undefined).map(r=>[r.checkpoint, r[key]]),
+          color, name, w, dash};
+}
+function ser3ck(rows){
+  return [serCk(rows,'bra','#E8A33D','Brasil',2.6),
+          serCk(rows,'lac','#6FA8A0','Am. Latina',1.8),
+          serCk(rows,'g20','#54707E','G20 s/ China',1.8,1)];
+}
 const CH = {
  CH_POV: chart(ser3(D.pov),{h:360,bands:BANDS,y0:0,mr:34,alt:'pobreza extrema'}),
  CH_GINI: chart(ser3(D.gini),{h:300,step:6,mr:34,alt:'gini'}),
@@ -637,16 +703,17 @@ const CH = {
  CH_SAN: chart(ser3(D.san),{h:270,step:6,ticks:3,mr:30,alt:'saneamento'}),
  CH_HOM: chart(ser3(D.hom),{h:270,step:6,y0:0,ticks:3,mr:30,alt:'homicidios'}),
  CH_DES: chart(ser3(D.des),{h:270,step:6,y0:0,ticks:3,mr:30,alt:'desemprego'}),
+ CH_BM_PRECO: chart(ser3ck(D.bigmac.preco),{h:300,step:4,ticks:4,mr:34,alt:'big mac preco em dolar'}),
+ CH_BM_VAL: chart(ser3ck(D.bigmac.valorizacao),{h:300,step:4,ticks:4,mr:34,alt:'valorizacao cambial big mac'}),
 };
 
 const deck=document.getElementById('deck');
 S.forEach((html,i)=>{
-  let h=html.replace('__ANS_P1__',ansTable('P1',['Investimento sobre PIB']))
-             .replace('__ANS_P2__',ansTable('P2',['Participação dos 40% mais pobres']))
-             .replace('__ANS_P3__',ansTable('P3',['Saneamento básico','Ensino médio completo (25+)']))
-             .replace('__ANS_P4__',ansTable('P4b',[]))
-             .replace('__CH_FOME__',fomeChart())
-             .replace('__AVAIL__',availHTML());
+  let h=html.replace('__ANS_P1__',buildup(ansRows('P1',['Investimento sobre PIB']),{alt:'pergunta 1'}))
+             .replace('__ANS_P2__',buildup(ansRows('P2',['Participação dos 40% mais pobres']),{alt:'pergunta 2'}))
+             .replace('__ANS_P3__',buildup(ansRows('P3',['Saneamento básico','Ensino médio completo (25+)']),{alt:'pergunta 3'}))
+             .replace('__ANS_P4__',buildup(ansRows('P4b',[]),{alt:'pergunta 4b'}))
+             .replace('__CH_FOME__',fomeChart());
   Object.keys(CH).forEach(k=>{h=h.replace('__'+k+'__',CH[k]);});
   const d=document.createElement('section');
   d.className='slide'; d.innerHTML=h; d.setAttribute('aria-hidden','true');
