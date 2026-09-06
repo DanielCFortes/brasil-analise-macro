@@ -1,0 +1,170 @@
+indicador,iso,obs_reais,obs_2002_2024,primeiro,ultimo
+PIB per capita PPC (const 2021 int$),BRA,24,23,2002.0,2025.0
+PIB per capita PPC (const 2021 int$),ARG,24,23,2002.0,2025.0
+PIB per capita PPC (const 2021 int$),CHL,24,23,2002.0,2025.0
+PIB per capita PPC (const 2021 int$),CHN,24,23,2002.0,2025.0
+PIB per capita PPC (const 2021 int$),COL,24,23,2002.0,2025.0
+PIB per capita PPC (const 2021 int$),ECU,24,23,2002.0,2025.0
+PIB per capita PPC (const 2021 int$),IDN,24,23,2002.0,2025.0
+PIB per capita PPC (const 2021 int$),IND,24,23,2002.0,2025.0
+PIB per capita PPC (const 2021 int$),MEX,24,23,2002.0,2025.0
+PIB per capita PPC (const 2021 int$),PER,24,23,2002.0,2025.0
+PIB per capita PPC (const 2021 int$),TUR,24,23,2002.0,2025.0
+PIB per capita PPC (const 2021 int$),ZAF,24,23,2002.0,2025.0
+PIB per capita PPC (const 2021 int$),UMC,0,0,,
+Produtividade (PIB por ocupado),BRA,24,23,2002.0,2025.0
+Produtividade (PIB por ocupado),ARG,24,23,2002.0,2025.0
+Produtividade (PIB por ocupado),CHL,24,23,2002.0,2025.0
+Produtividade (PIB por ocupado),CHN,24,23,2002.0,2025.0
+Produtividade (PIB por ocupado),COL,24,23,2002.0,2025.0
+Produtividade (PIB por ocupado),ECU,24,23,2002.0,2025.0
+Produtividade (PIB por ocupado),IDN,24,23,2002.0,2025.0
+Produtividade (PIB por ocupado),IND,24,23,2002.0,2025.0
+Produtividade (PIB por ocupado),MEX,24,23,2002.0,2025.0
+Produtividade (PIB por ocupado),PER,24,23,2002.0,2025.0
+Produtividade (PIB por ocupado),TUR,24,23,2002.0,2025.0
+Produtividade (PIB por ocupado),ZAF,24,23,2002.0,2025.0
+Produtividade (PIB por ocupado),UMC,0,0,,
+"Pobreza extrema US$3,00 PPC 2021 (%)",BRA,22,22,2002.0,2024.0
+"Pobreza extrema US$3,00 PPC 2021 (%)",ARG,22,22,2002.0,2024.0
+"Pobreza extrema US$3,00 PPC 2021 (%)",CHL,10,10,2003.0,2024.0
+"Pobreza extrema US$3,00 PPC 2021 (%)",CHN,16,16,2002.0,2022.0
+"Pobreza extrema US$3,00 PPC 2021 (%)",COL,21,21,2002.0,2024.0
+"Pobreza extrema US$3,00 PPC 2021 (%)",ECU,23,22,2003.0,2025.0
+"Pobreza extrema US$3,00 PPC 2021 (%)",IDN,24,23,2002.0,2025.0
+"Pobreza extrema US$3,00 PPC 2021 (%)",IND,4,4,2004.0,2022.0
+"Pobreza extrema US$3,00 PPC 2021 (%)",MEX,13,13,2002.0,2024.0
+"Pobreza extrema US$3,00 PPC 2021 (%)",PER,23,23,2002.0,2024.0
+"Pobreza extrema US$3,00 PPC 2021 (%)",TUR,22,22,2002.0,2023.0
+"Pobreza extrema US$3,00 PPC 2021 (%)",ZAF,5,5,2005.0,2022.0
+"Pobreza extrema US$3,00 PPC 2021 (%)",UMC,0,0,,
+"Pobreza US$4,20 PPC 2021 (%)",BRA,22,22,2002.0,2024.0
+"Pobreza US$4,20 PPC 2021 (%)",ARG,22,22,2002.0,2024.0
+"Pobreza US$4,20 PPC 2021 (%)",CHL,10,10,2003.0,2024.0
+"Pobreza US$4,20 PPC 2021 (%)",CHN,16,16,2002.0,2022.0
+"Pobreza US$4,20 PPC 2021 (%)",COL,21,21,2002.0,2024.0
+"Pobreza US$4,20 PPC 2021 (%)",ECU,23,22,2003.0,2025.0
+"Pobreza US$4,20 PPC 2021 (%)",IDN,24,23,2002.0,2025.0
+"Pobreza US$4,20 PPC 2021 (%)",IND,4,4,2004.0,2022.0
+"Pobreza US$4,20 PPC 2021 (%)",MEX,13,13,2002.0,2024.0
+"Pobreza US$4,20 PPC 2021 (%)",PER,23,23,2002.0,2024.0
+"Pobreza US$4,20 PPC 2021 (%)",TUR,22,22,2002.0,2023.0
+"Pobreza US$4,20 PPC 2021 (%)",ZAF,5,5,2005.0,2022.0
+"Pobreza US$4,20 PPC 2021 (%)",UMC,0,0,,
+Indice de Gini,BRA,22,22,2002.0,2024.0
+Indice de Gini,ARG,22,22,2002.0,2024.0
+Indice de Gini,CHL,10,10,2003.0,2024.0
+Indice de Gini,CHN,16,16,2002.0,2022.0
+Indice de Gini,COL,21,21,2002.0,2024.0
+Indice de Gini,ECU,23,22,2003.0,2025.0
+Indice de Gini,IDN,24,23,2002.0,2025.0
+Indice de Gini,IND,4,4,2004.0,2022.0
+Indice de Gini,MEX,13,13,2002.0,2024.0
+Indice de Gini,PER,23,23,2002.0,2024.0
+Indice de Gini,TUR,22,22,2002.0,2023.0
+Indice de Gini,ZAF,5,5,2005.0,2022.0
+Indice de Gini,UMC,0,0,,
+Participacao de renda - 40% mais pobres,BRA,22,22,2002.0,2024.0
+Participacao de renda - 40% mais pobres,ARG,22,22,2002.0,2024.0
+Participacao de renda - 40% mais pobres,CHL,10,10,2003.0,2024.0
+Participacao de renda - 40% mais pobres,CHN,16,16,2002.0,2022.0
+Participacao de renda - 40% mais pobres,COL,21,21,2002.0,2024.0
+Participacao de renda - 40% mais pobres,ECU,23,22,2003.0,2025.0
+Participacao de renda - 40% mais pobres,IDN,24,23,2002.0,2025.0
+Participacao de renda - 40% mais pobres,IND,4,4,2004.0,2022.0
+Participacao de renda - 40% mais pobres,MEX,13,13,2002.0,2024.0
+Participacao de renda - 40% mais pobres,PER,23,23,2002.0,2024.0
+Participacao de renda - 40% mais pobres,TUR,22,22,2002.0,2023.0
+Participacao de renda - 40% mais pobres,ZAF,5,5,2005.0,2022.0
+Participacao de renda - 40% mais pobres,UMC,0,0,,
+Participacao de renda - 10% mais ricos,BRA,22,22,2002.0,2024.0
+Participacao de renda - 10% mais ricos,ARG,22,22,2002.0,2024.0
+Participacao de renda - 10% mais ricos,CHL,10,10,2003.0,2024.0
+Participacao de renda - 10% mais ricos,CHN,16,16,2002.0,2022.0
+Participacao de renda - 10% mais ricos,COL,21,21,2002.0,2024.0
+Participacao de renda - 10% mais ricos,ECU,23,22,2003.0,2025.0
+Participacao de renda - 10% mais ricos,IDN,24,23,2002.0,2025.0
+Participacao de renda - 10% mais ricos,IND,4,4,2004.0,2022.0
+Participacao de renda - 10% mais ricos,MEX,13,13,2002.0,2024.0
+Participacao de renda - 10% mais ricos,PER,23,23,2002.0,2024.0
+Participacao de renda - 10% mais ricos,TUR,22,22,2002.0,2023.0
+Participacao de renda - 10% mais ricos,ZAF,5,5,2005.0,2022.0
+Participacao de renda - 10% mais ricos,UMC,0,0,,
+Mortalidade infantil (por mil nasc.),BRA,23,23,2002.0,2024.0
+Mortalidade infantil (por mil nasc.),ARG,23,23,2002.0,2024.0
+Mortalidade infantil (por mil nasc.),CHL,23,23,2002.0,2024.0
+Mortalidade infantil (por mil nasc.),CHN,23,23,2002.0,2024.0
+Mortalidade infantil (por mil nasc.),COL,23,23,2002.0,2024.0
+Mortalidade infantil (por mil nasc.),ECU,23,23,2002.0,2024.0
+Mortalidade infantil (por mil nasc.),IDN,23,23,2002.0,2024.0
+Mortalidade infantil (por mil nasc.),IND,23,23,2002.0,2024.0
+Mortalidade infantil (por mil nasc.),MEX,23,23,2002.0,2024.0
+Mortalidade infantil (por mil nasc.),PER,23,23,2002.0,2024.0
+Mortalidade infantil (por mil nasc.),TUR,23,23,2002.0,2024.0
+Mortalidade infantil (por mil nasc.),ZAF,23,23,2002.0,2024.0
+Mortalidade infantil (por mil nasc.),UMC,0,0,,
+Saneamento basico (% pop.),BRA,23,23,2002.0,2024.0
+Saneamento basico (% pop.),ARG,15,15,2002.0,2016.0
+Saneamento basico (% pop.),CHL,23,23,2002.0,2024.0
+Saneamento basico (% pop.),CHN,23,23,2002.0,2024.0
+Saneamento basico (% pop.),COL,23,23,2002.0,2024.0
+Saneamento basico (% pop.),ECU,23,23,2002.0,2024.0
+Saneamento basico (% pop.),IDN,23,23,2002.0,2024.0
+Saneamento basico (% pop.),IND,23,23,2002.0,2024.0
+Saneamento basico (% pop.),MEX,23,23,2002.0,2024.0
+Saneamento basico (% pop.),PER,23,23,2002.0,2024.0
+Saneamento basico (% pop.),TUR,23,23,2002.0,2024.0
+Saneamento basico (% pop.),ZAF,23,23,2002.0,2024.0
+Saneamento basico (% pop.),UMC,0,0,,
+Homicidios (por 100 mil hab.),BRA,22,22,2002.0,2023.0
+Homicidios (por 100 mil hab.),ARG,22,22,2002.0,2023.0
+Homicidios (por 100 mil hab.),CHL,20,20,2003.0,2023.0
+Homicidios (por 100 mil hab.),CHN,19,19,2002.0,2020.0
+Homicidios (por 100 mil hab.),COL,22,22,2002.0,2023.0
+Homicidios (por 100 mil hab.),ECU,18,18,2002.0,2023.0
+Homicidios (por 100 mil hab.),IDN,3,3,2003.0,2022.0
+Homicidios (por 100 mil hab.),IND,21,21,2002.0,2022.0
+Homicidios (por 100 mil hab.),MEX,22,22,2002.0,2023.0
+Homicidios (por 100 mil hab.),PER,11,11,2011.0,2021.0
+Homicidios (por 100 mil hab.),TUR,18,18,2003.0,2023.0
+Homicidios (por 100 mil hab.),ZAF,21,21,2002.0,2022.0
+Homicidios (por 100 mil hab.),UMC,0,0,,
+"Desemprego (%, est. OIT)",BRA,24,23,2002.0,2025.0
+"Desemprego (%, est. OIT)",ARG,24,23,2002.0,2025.0
+"Desemprego (%, est. OIT)",CHL,24,23,2002.0,2025.0
+"Desemprego (%, est. OIT)",CHN,24,23,2002.0,2025.0
+"Desemprego (%, est. OIT)",COL,24,23,2002.0,2025.0
+"Desemprego (%, est. OIT)",ECU,24,23,2002.0,2025.0
+"Desemprego (%, est. OIT)",IDN,24,23,2002.0,2025.0
+"Desemprego (%, est. OIT)",IND,24,23,2002.0,2025.0
+"Desemprego (%, est. OIT)",MEX,24,23,2002.0,2025.0
+"Desemprego (%, est. OIT)",PER,24,23,2002.0,2025.0
+"Desemprego (%, est. OIT)",TUR,24,23,2002.0,2025.0
+"Desemprego (%, est. OIT)",ZAF,24,23,2002.0,2025.0
+"Desemprego (%, est. OIT)",UMC,0,0,,
+Emprego vulneravel (%),BRA,24,23,2002.0,2025.0
+Emprego vulneravel (%),ARG,24,23,2002.0,2025.0
+Emprego vulneravel (%),CHL,24,23,2002.0,2025.0
+Emprego vulneravel (%),CHN,24,23,2002.0,2025.0
+Emprego vulneravel (%),COL,24,23,2002.0,2025.0
+Emprego vulneravel (%),ECU,24,23,2002.0,2025.0
+Emprego vulneravel (%),IDN,24,23,2002.0,2025.0
+Emprego vulneravel (%),IND,24,23,2002.0,2025.0
+Emprego vulneravel (%),MEX,24,23,2002.0,2025.0
+Emprego vulneravel (%),PER,24,23,2002.0,2025.0
+Emprego vulneravel (%),TUR,24,23,2002.0,2025.0
+Emprego vulneravel (%),ZAF,24,23,2002.0,2025.0
+Emprego vulneravel (%),UMC,0,0,,
+"Ensino medio completo (25+, %)",BRA,23,23,2002.0,2024.0
+"Ensino medio completo (25+, %)",ARG,2,2,2003.0,2022.0
+"Ensino medio completo (25+, %)",CHL,21,21,2003.0,2024.0
+"Ensino medio completo (25+, %)",CHN,2,2,2010.0,2020.0
+"Ensino medio completo (25+, %)",COL,23,23,2002.0,2024.0
+"Ensino medio completo (25+, %)",ECU,21,21,2003.0,2024.0
+"Ensino medio completo (25+, %)",IDN,22,22,2002.0,2023.0
+"Ensino medio completo (25+, %)",IND,6,6,2005.0,2023.0
+"Ensino medio completo (25+, %)",MEX,24,23,2002.0,2025.0
+"Ensino medio completo (25+, %)",PER,23,23,2002.0,2024.0
+"Ensino medio completo (25+, %)",TUR,22,22,2002.0,2023.0
+"Ensino medio completo (25+, %)",ZAF,15,15,2009.0,2024.0
+"Ensino medio completo (25+, %)",UMC,0,0,,

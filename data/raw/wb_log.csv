@@ -1,0 +1,31 @@
+indicador,nome,obs,nota
+NY.GDP.PCAP.PP.KD,PIB per capita PPC (const 2021 int$),403,403 obs
+NY.GDP.PCAP.KD,PIB per capita (const US$),403,403 obs
+NY.GDP.MKTP.KD.ZG,Crescimento do PIB (%),403,403 obs
+SL.GDP.PCAP.EM.KD,Produtividade (PIB por ocupado),403,403 obs
+NE.GDI.TOTL.ZS,Investimento / PIB (%),401,401 obs
+SL.UEM.TOTL.ZS,"Desemprego (%, est. OIT)",403,403 obs
+SL.EMP.VULN.ZS,Emprego vulneravel (%),403,403 obs
+SL.ISV.IFRM.ZS,Emprego informal (%),0,sem dados retornados
+SI.POV.GINI,Indice de Gini,245,245 obs
+SI.DST.FRST.20,Participacao de renda - 20% mais pobres,245,245 obs
+SI.DST.02ND.20,Participacao de renda - 2o quintil,245,245 obs
+SI.DST.10TH.10,Participacao de renda - 10% mais ricos,245,245 obs
+SI.SPR.PC40.ZG,Crescimento anualizado renda bottom 40 (%),11,11 obs
+SI.SPR.PCAP.ZG,Crescimento anualizado renda media (%),11,11 obs
+SI.POV.DDAY,"Pobreza extrema US$3,00 PPC 2021 (%)",275,275 obs
+SI.POV.LMIC,"Pobreza US$4,20 PPC 2021 (%)",275,275 obs
+SI.POV.UMIC,"Pobreza US$8,30 PPC 2021 (%)",275,275 obs
+SP.DYN.IMRT.IN,Mortalidade infantil (por mil nasc.),390,390 obs
+SH.DYN.MORT,Mortalidade menores de 5 anos,390,390 obs
+SH.STA.BASS.ZS,Saneamento basico (% pop.),317,317 obs
+SH.H2O.BASW.ZS,Agua potavel basica (% pop.),317,317 obs
+SH.IMM.IDPT,Cobertura vacinal DTP3 (%),390,390 obs
+SH.IMM.MEAS,Cobertura vacinal sarampo (%),390,390 obs
+SE.SEC.CUAT.UP.ZS,"Ensino medio completo (25+, %)",232,232 obs
+SN.ITK.MSFI.ZS,Inseguranca alimentar moderada ou grave (%),89,89 obs
+per_allsp.cov_pop_tot,Cobertura de protecao social (%),122,122 obs
+VC.IHR.PSRC.P5,Homicidios (por 100 mil hab.),282,282 obs
+GC.DOD.TOTL.GD.ZS,Divida do governo central / PIB (%),140,140 obs
+FP.CPI.TOTL.ZG,Inflacao ao consumidor (%),379,379 obs
+NE.TRD.GNFS.ZS,Comercio / PIB (%),403,403 obs
