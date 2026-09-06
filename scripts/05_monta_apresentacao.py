@@ -54,7 +54,7 @@ b,strong{font-weight:600;color:#F1EEE5}
 .strip span{font-family:var(--mono);font-size:.62rem;color:var(--dim);margin-left:10px;
   align-self:center;letter-spacing:.04em}
 
-.body{display:flex;gap:4vw;flex:1;min-height:0;margin-top:2.4vh;flex-wrap:wrap}
+.body{display:flex;gap:4vw;margin-top:2.4vh;flex-wrap:wrap}
 .col{flex:1;min-width:260px}
 .stack>*+*{margin-top:1.1em}
 
@@ -333,8 +333,9 @@ S.push(`
 <div class="legend" style="margin-top:.8vh">
 <span><b style="background:var(--br)"></b>Brasil</span>
 <span><b style="background:var(--grp)"></b>Mediana da América Latina</span>
+<span><b style="background:var(--grp2)"></b>Mediana do G20 emergentes, sem China</span>
 </div>
-<p style="margin-top:1.2vh">Gini brasileiro cai de <span class="num">58,1</span> para <span class="num">50,3</span>. A queda é contínua até 2014, reverte na recessão e volta a cair a partir de 2021.</p>
+<p style="margin-top:1.2vh">Gini brasileiro cai de <span class="num">58,1</span> para <span class="num">50,3</span>. A queda é contínua até 2014, reverte na recessão e volta a cair a partir de 2021. A mediana do G20 sem China vem de só três países com cobertura suficiente, ver regra de cobertura mínima.</p>
 <div class="defs">
 <div><b>Índice de Gini.</b> Mede a concentração de renda numa escala de 0 a 100. Zero seria todo mundo ganhando igual, 100 seria uma pessoa com toda a renda. Quanto menor, menos desigual.</div>
 <div><b>Participação dos 40% mais pobres.</b> Quanto da renda total do país fica com a metade de baixo menos rica. Se fosse distribuição perfeitamente igual, seriam 40%. É a soma dos dois quintis inferiores.</div>
@@ -344,23 +345,31 @@ S.push(`
 
 S.push(`
 <h2>Renda cresceu. Produtividade, muito menos.</h2>
-<p class="mute" style="font-size:.86rem">Brasil. Índice com base 2002 = 100: cada linha mostra quanto o indicador cresceu desde 2002, não o valor absoluto.</p>
-<div class="chartwrap">__CH_IDX__</div>
+<p class="mute" style="font-size:.86rem">Índice com base 2002 = 100: cada linha mostra quanto o indicador cresceu desde 2002, não o valor absoluto. Grupos em mediana, país indexado antes de entrar na mediana.</p>
+<div class="body"><div class="col">
+<h3>PIB per capita em PPC</h3>
+<div class="chartwrap">__CH_PIB__</div>
+</div><div class="col">
+<h3>Produtividade do trabalho</h3>
+<div class="chartwrap">__CH_PROD__</div>
+</div></div>
 <div class="legend" style="margin-top:.8vh">
-<span><b style="background:var(--br)"></b>PIB per capita em PPC</span>
-<span><b style="background:var(--grp)"></b>Produtividade do trabalho</span>
+<span><b style="background:var(--br)"></b>Brasil</span>
+<span><b style="background:var(--grp)"></b>Mediana da América Latina</span>
+<span><b style="background:var(--grp2)"></b>Mediana do G20 emergentes, sem China</span>
 </div>
-<p style="margin-top:1.2vh">Em 2025 o PIB per capita está em <span class="num">140</span> e a produtividade em <span class="num">125</span>. Dividir um pelo outro dá exatamente a razão entre pessoas ocupadas e população total: <b>o Brasil produziu mais por habitante em boa parte porque passou a ter proporcionalmente mais gente trabalhando</b>, e não porque cada trabalhador produziu muito mais.</p>
+<p style="margin-top:1.2vh">Em 2025 o PIB per capita brasileiro está em <span class="num">140</span> e a produtividade em <span class="num">125</span>, contra <span class="num">237</span> e <span class="num">205</span> na mediana do G20 sem China. Dividir PIB por produtividade dá exatamente a razão entre pessoas ocupadas e população total: <b>o Brasil produziu mais por habitante em boa parte porque passou a ter proporcionalmente mais gente trabalhando</b>, e não porque cada trabalhador produziu muito mais. Os pares cresceram nas duas frentes.</p>
 <div class="defs">
 <div><b>PIB per capita em PPC.</b> Produto interno bruto dividido pela população inteira, convertido por paridade do poder de compra e com a inflação removida (dólares internacionais constantes de 2021). Aproxima a renda média por habitante.</div>
 <div><b>Produtividade, ou PIB por pessoa ocupada.</b> O mesmo PIB, dividido pelo número de pessoas efetivamente trabalhando em vez de pela população. Mede quanto valor cada trabalhador gera por ano.</div>
-<div><b>Por que as duas divergem.</b> A diferença entre elas é, por definição, a mudança na proporção de ocupados sobre a população: mais gente em idade de trabalhar e maior participação da mulher no mercado. É um ganho que acontece uma vez e não se repete.</div>
+<div><b>Por que as duas divergem, no Brasil.</b> A diferença entre elas é, por definição, a mudança na proporção de ocupados sobre a população: mais gente em idade de trabalhar e maior participação da mulher no mercado. É um ganho que acontece uma vez e não se repete.</div>
 <div><b>Ressalva do cálculo.</b> A medida é por trabalhador e não por hora trabalhada. Mudanças em jornada média, tempo parcial e informalidade entram no número. Produtividade por hora seria melhor, mas tem cobertura internacional muito pior.</div>
 </div>
 `);
 
 S.push(`
-<h2>Indicadores sociais do Brasil</h2>
+<h2>Indicadores sociais, mesma base comparativa</h2>
+<p class="mute" style="font-size:.86rem">Brasil, mediana da América Latina e mediana do G20 emergentes sem China, quando o indicador tem dado para os três.</p>
 <div class="body"><div class="col">
 <h3>Mortalidade infantil <span class="mute">por mil nascidos vivos</span></h3>
 <div class="chartwrap">__CH_IMR__</div>
@@ -372,6 +381,11 @@ S.push(`
 <h3 style="margin-top:1.6vh">Desemprego <span class="mute">% da força de trabalho</span></h3>
 <div class="chartwrap">__CH_DES__</div>
 </div></div>
+<div class="legend" style="margin-top:1.2vh">
+<span><b style="background:var(--br)"></b>Brasil</span>
+<span><b style="background:var(--grp)"></b>Mediana da América Latina</span>
+<span><b style="background:var(--grp2)"></b>Mediana do G20 emergentes, sem China</span>
+</div>
 <div class="defs">
 <div><b>Mortalidade infantil.</b> Mortes de crianças com menos de 1 ano a cada mil nascidas vivas. É o indicador mais sensível a acesso a saúde básica, pré-natal e saneamento.</div>
 <div><b>Saneamento básico.</b> Percentual da população com acesso a instalação sanitária de uso próprio que separa o esgoto do contato humano. Definição do JMP, da OMS e do UNICEF.</div>
@@ -387,42 +401,14 @@ S.push(`
 <div class="legend" style="margin-top:.8vh">
 <span><b style="background:var(--br)"></b>Brasil</span>
 <span><b style="background:var(--grp)"></b>Mediana da América Latina</span>
+<span><b style="background:var(--grp2)"></b>Mediana do G20 emergentes, sem China</span>
 </div>
 <p style="margin-top:1.2vh">O Brasil sobe de <span class="num">13,3%</span> em 2015 para <span class="num">22,1%</span> em 2021 e volta a <span class="num">13,5%</span> em 2023. É a única reversão dessa magnitude no grupo. A mediana latino americana subiu de forma contínua e não voltou.</p>
 <div class="defs">
 <div><b>Escala FIES.</b> Questionário de oito perguntas aplicado direto às pessoas sobre a experiência recente de falta de comida: pular refeição, comer menos do que precisava, ficar um dia sem comer. Não usa renda como proxy.</div>
 <div><b>Moderada ou grave.</b> Inclui desde quem reduziu qualidade e quantidade da comida até quem passou dias sem comer. A categoria só grave é bem menor.</div>
 <div><b>Por que importa aqui.</b> É o indicador de bem estar que mais se move no curto prazo. Pobreza monetária e mortalidade demoram anos para reagir; fome reage em meses.</div>
-<div><b>Limite da série.</b> Começa em 2015 e não cobre os três primeiros regimes. Sem dado para Índia, Turquia e China, então a comparação G20 é fraca.</div>
-</div>
-`);
-
-S.push(`
-<h2>O mesmo dado, duas leituras opostas</h2>
-<p class="mute" style="font-size:.86rem">Pobreza extrema. <b>Δ pp</b> é a variação em pontos percentuais. <b>Δ %</b> é a redução proporcional ao ponto de partida. Nos dois casos, negativo significa melhora. Grupos em mediana.</p>
-<div style="overflow-x:auto;margin-top:1.2vh">
-<table style="min-width:660px">
-<tr>
-<th rowspan="2">Regime</th>
-<th colspan="3" style="text-align:center;color:var(--br)">Brasil</th>
-<th colspan="2" style="text-align:center">América Latina</th>
-<th colspan="2" style="text-align:center">G20 sem China</th>
-<th colspan="2" style="text-align:center">Exportadores</th>
-</tr>
-<tr>
-<th style="text-align:right">nível inicial</th><th style="text-align:right">Δ pp</th><th style="text-align:right">Δ %</th>
-<th style="text-align:right">Δ pp</th><th style="text-align:right">Δ %</th>
-<th style="text-align:right">Δ pp</th><th style="text-align:right">Δ %</th>
-<th style="text-align:right">Δ pp</th><th style="text-align:right">Δ %</th>
-</tr>
-__TAB2__
-</table>
-</div>
-<div class="note" style="margin-top:1.6vh">No boom de commodities, medido em <b>pontos percentuais</b> o Brasil reduziu pobreza extrema menos que os três grupos. Medido em <b>redução proporcional</b>, o Brasil supera dois deles e continua atrás só da América Latina. A causa é o ponto de partida: Índia estava em <span class="num">46%</span>, Indonésia em <span class="num">45%</span>, África do Sul em <span class="num">42%</span>, e o Brasil em <span class="num">16%</span>. Quem começa mais alto cai mais em pontos percentuais sem ter feito nada melhor.</div>
-<div class="defs">
-<div><b>Consequência metodológica.</b> Variação em pontos percentuais não é comparável entre países com níveis iniciais muito diferentes. A especificação passa a exigir as duas medidas publicadas juntas, sempre, e nunca uma sozinha.</div>
-<div><b>O que sobrevive às duas leituras.</b> Na recessão e ajuste o Brasil é o pior dos quatro nas duas métricas. Na recuperação é o melhor nas duas. Esses dois resultados são robustos à escolha da medida; o do boom não é.</div>
-<div><b>Limite da medida relativa.</b> Quando o nível já é baixo, o denominador fica pequeno e a variação percentual exagera movimentos pequenos. Por isso nenhuma das duas substitui a outra.</div>
+<div><b>Limite da série.</b> Começa em 2015 e não cobre os três primeiros regimes. A mediana do G20 sem China vem só de Indonésia e África do Sul, sem dado para Índia, Turquia e China, então essa linha é a mais fraca do grupo.</div>
 </div>
 `);
 
@@ -628,26 +614,25 @@ function ansTable(q, inv){
   return h+'</table></div>';
 }
 function fomeChart(){
-  const bra=D.fome.BRA, lac=D.fome.LAC_MED;
-  return chart([ser(bra,'#E8A33D','',2.8), ser(lac,'#6FA8A0','',1.8)],{h:300,step:2,y0:0,alt:'inseguranca alimentar'});
+  const bra=D.fome.BRA, lac=D.fome.LAC_MED, g20=D.fome.G20_MED;
+  return chart([ser(bra,'#E8A33D','',2.8), ser(lac,'#6FA8A0','',1.8), ser(g20,'#54707E','',1.8,1)],{h:300,step:2,y0:0,alt:'inseguranca alimentar'});
 }
-function tab2HTML(){
-  const c=v=>v===null||v===undefined?'<td class="n mute">n/d</td>'
-    :'<td class="n '+(v<0?'good':'bad')+'">'+(v>0?'+':'')+v+'</td>';
-  return D.tab2.map(r=>'<tr><td>'+r.reg+'</td>'
-    +'<td class="n mute">'+r.br_ini.toFixed(1)+'%</td>'+c(r.br_pp)+c(r.br_rel)
-    +c(r.lac_pp)+c(r.lac_rel)+c(r.g20_pp)+c(r.g20_rel)+c(r.exp_pp)+c(r.exp_rel)+'</tr>').join('');
+/* série de 3, mesma base em toda a apresentação: Brasil, América Latina, G20 sem China */
+function ser3(node){
+  return [ser(node.bra,'#E8A33D','Brasil',2.6),
+          ser(node.lac,'#6FA8A0','Am. Latina',1.8),
+          ser(node.g20,'#54707E','G20 s/ China',1.8,1)];
 }
-
 const CH = {
- CH_POV: chart([ser(D.pov.bra,'#E8A33D','Brasil',2.6), ser(D.pov.lac,'#6FA8A0','Am. Latina',1.6), ser(D.pov.g20,'#54707E','G20 s/ China',1.6,1)],{h:360,bands:BANDS,y0:0,alt:'pobreza extrema'}),
- CH_GINI: chart([ser(D.gini.bra,'#E8A33D','Brasil',2.6), ser(D.gini.lac,'#6FA8A0','Am. Latina',1.6)],{h:300,step:6,alt:'gini'}),
- CH_B40: chart([ser(D.b40.bra,'#E8A33D','Brasil',2.6), ser(D.b40.lac,'#6FA8A0','Am. Latina',1.6)],{h:300,step:6,alt:'bottom 40'}),
- CH_IDX: chart([ser(D.idx.pib,'#E8A33D','PIB per capita',2.6), ser(D.idx.prod,'#6FA8A0','Produtividade',2.2)],{h:340,bands:BANDS,alt:'indice'}),
- CH_IMR: chart([ser(D.soc.imr,'#E8A33D','',2.4)],{h:230,step:6,y0:0,ticks:3,alt:'mortalidade'}),
- CH_SAN: chart([ser(D.soc.san,'#6FA8A0','',2.4)],{h:230,step:6,ticks:3,alt:'saneamento'}),
- CH_HOM: chart([ser(D.soc.hom,'#C9604A','',2.4)],{h:230,step:6,ticks:3,alt:'homicidios'}),
- CH_DES: chart([ser(D.soc.des,'#54707E','',2.4)],{h:230,step:6,ticks:3,alt:'desemprego'}),
+ CH_POV: chart(ser3(D.pov),{h:360,bands:BANDS,y0:0,mr:34,alt:'pobreza extrema'}),
+ CH_GINI: chart(ser3(D.gini),{h:300,step:6,mr:34,alt:'gini'}),
+ CH_B40: chart(ser3(D.b40),{h:300,step:6,mr:34,alt:'bottom 40'}),
+ CH_PIB: chart(ser3(D.idx.pib),{h:300,bands:BANDS,mr:34,alt:'pib per capita indexado'}),
+ CH_PROD: chart(ser3(D.idx.prod),{h:300,bands:BANDS,mr:34,alt:'produtividade indexada'}),
+ CH_IMR: chart(ser3(D.imr),{h:270,step:6,y0:0,ticks:3,mr:30,alt:'mortalidade'}),
+ CH_SAN: chart(ser3(D.san),{h:270,step:6,ticks:3,mr:30,alt:'saneamento'}),
+ CH_HOM: chart(ser3(D.hom),{h:270,step:6,y0:0,ticks:3,mr:30,alt:'homicidios'}),
+ CH_DES: chart(ser3(D.des),{h:270,step:6,y0:0,ticks:3,mr:30,alt:'desemprego'}),
 };
 
 const deck=document.getElementById('deck');
@@ -657,7 +642,7 @@ S.forEach((html,i)=>{
              .replace('__ANS_P3__',ansTable('P3',['Saneamento básico','Ensino médio completo (25+)']))
              .replace('__ANS_P4__',ansTable('P4b',[]))
              .replace('__CH_FOME__',fomeChart())
-             .replace('__AVAIL__',availHTML()).replace('__TAB2__',tab2HTML());
+             .replace('__AVAIL__',availHTML());
   Object.keys(CH).forEach(k=>{h=h.replace('__'+k+'__',CH[k]);});
   const d=document.createElement('section');
   d.className='slide'; d.innerHTML=h; d.setAttribute('aria-hidden','true');
