@@ -419,7 +419,7 @@ S.push(`
 <ul class="rule">
 <li><b>1. O Brasil ficou mais rico? Sim, pouco, e menos que os pares.</b> <span class="mute">Renda por habitante mais 43% em 23 anos. América Latina mais 62%, demais emergentes mais 144%. Investimento caiu.</span></li>
 <li><b>2. Quem capturou o crescimento? A base.</b> <span class="mute">Gini cai 8,1 pontos, participação dos 40% mais pobres sobe de 8,5% para 12%, participação dos 10% mais ricos cai de 46% para 39%. Distribuição foi progressiva.</span></li>
-<li><b>3. A vida dos pobres melhorou? Sim, muito, em quase tudo.</b> <span class="mute">Pobreza extrema de 17,5% para 3%. Mortalidade infantil cai 55%. Saneamento sobe 18 pontos. Ensino médio completo mais que dobra. Fome é a exceção: volta ao ponto de partida.</span></li>
+<li><b>3. A vida dos pobres melhorou? Sim, muito, em quase tudo.</b> <span class="mute">Pobreza extrema de 17,5% para 3%, em 23 anos. Mortalidade infantil cai 55%. Saneamento sobe 18 pontos. Ensino médio completo mais que dobra. Fome é a exceção: volta ao ponto de partida, mas a série só existe de 2015 a 2023, um recorte bem mais curto que os demais.</span></li>
 </ul>
 </div><div class="col">
 <ul class="rule">
@@ -603,12 +603,16 @@ function cellDelta(pp,rel,d,inv){
 }
 function ansTable(q, inv){
   const rows = D.ans.filter(r=>r.q===q);
-  let h='<div style="overflow-x:auto"><table style="min-width:600px"><tr><th>Indicador</th><th style="text-align:right">Brasil, início e fim</th><th style="text-align:right">Δ Brasil</th><th style="text-align:right">Δ América Latina</th><th style="text-align:right">Δ G20 emergentes</th></tr>';
+  const janelaComum = rows.every(r=>r.anos===rows[0].anos);
+  let h='<div style="overflow-x:auto"><table style="min-width:600px"><tr><th>Indicador</th><th style="text-align:right">Brasil, início e fim'
+    +(janelaComum?' <span class="mute" style="font-weight:400">('+rows[0].anos.replace('-','–')+')</span>':'')
+    +'</th><th style="text-align:right">Δ Brasil</th><th style="text-align:right">Δ América Latina</th><th style="text-align:right">Δ G20 emergentes</th></tr>';
   rows.forEach(r=>{
     const d = (r.unid==='int$')?0:1;
     const up = inv && inv.indexOf(r.ind)>=0;
+    const janela = janelaComum ? '' : ' <span class="mute" style="font-size:.82em">('+r.anos.replace('-','–')+')</span>';
     h+='<tr><td>'+r.ind+' <span class="mute" style="font-size:.85em">'+r.unid+'</span></td>'
-      +'<td class="n mute">'+Number(r.br_ini).toLocaleString('pt-BR')+' → '+Number(r.br_fim).toLocaleString('pt-BR')+'</td>'
+      +'<td class="n mute">'+Number(r.br_ini).toLocaleString('pt-BR')+' → '+Number(r.br_fim).toLocaleString('pt-BR')+janela+'</td>'
       +cellDelta(r.br_pp,r.br_rel,d,up)+cellDelta(r.lac_pp,r.lac_rel,d,up)+cellDelta(r.g20_pp,r.g20_rel,d,up)+'</tr>';
   });
   return h+'</table></div>';
