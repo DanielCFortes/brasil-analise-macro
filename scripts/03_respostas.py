@@ -8,7 +8,7 @@ Consolida tudo que a apresentação consome, para que o deck seja reprodutível
 a partir do painel e não dependa de cálculo feito à mão.
 """
 import os, json, pandas as pd, numpy as np
-from comum import (PROC, REGIMES, MIN_OBS, carrega_painel, serie,
+from comum import (PROC, MIN_OBS, carrega_painel, serie,
                    variacao, mediana_grupo, grupo_filtrado, n_obs)
 
 LAC = ['MEX', 'COL', 'CHL', 'PER', 'ARG', 'ECU']
@@ -48,27 +48,41 @@ def main():
     df = carrega_painel()
     D = {}
 
-    # --- séries dos gráficos: Brasil e medianas ---
+    # --- séries dos gráficos: Brasil, América Latina e G20 sem China ---
+    # Mesma base comparativa em todo indicador que tenha dado para os três.
     for chave, code in [('pov', 'SI.POV.DDAY'), ('gini', 'SI.POV.GINI'),
-                        ('b40', 'DERIV.B40.SHARE')]:
+                        ('b40', 'DERIV.B40.SHARE'),
+                        ('imr', 'SP.DYN.IMRT.IN'), ('san', 'SH.STA.BASS.ZS'),
+                        ('hom', 'VC.IHR.PSRC.P5'), ('des', 'SL.UEM.TOTL.ZS')]:
         bra, lac, g20 = serie(df, code, 'BRA'), med_ano(df, code, LAC), med_ano(df, code, G20)
         D[chave] = {n: {y: (round(s[y], 2) if y in s.index and pd.notna(s[y]) else None)
-                        for y in range(2002, 2025)}
+                        for y in range(2002, 2027)}
                     for n, s in [('bra', bra), ('lac', lac), ('g20', g20)]}
 
-    # --- índices com base 2002 = 100 ---
+    # --- índices com base 2002 = 100, mesma base comparativa ---
+    def idx_grupo(code, isos, base=2002):
+        """Mediana do índice (base 2002 = 100) entre os países do grupo.
+
+        Cada país é indexado ao próprio valor de base antes da mediana,
+        para não misturar nível com variação.
+        """
+        cols = {}
+        for i in isos:
+            s = serie(df, code, i)
+            if base in s.index and pd.notna(s[base]) and s[base]:
+                cols[i] = s / s[base] * 100
+        if not cols:
+            return pd.Series(dtype=float)
+        return pd.DataFrame(cols).median(axis=1, skipna=True)
+
     D['idx'] = {}
     for chave, code in [('pib', 'NY.GDP.PCAP.PP.KD'), ('prod', 'SL.GDP.PCAP.EM.KD')]:
-        s = serie(df, code, 'BRA')
-        D['idx'][chave] = {y: round(s[y] / s[2002] * 100, 1)
-                           for y in range(2002, 2026) if y in s.index}
-
-    # --- indicadores sociais do Brasil ---
-    D['soc'] = {}
-    for chave, code in [('imr', 'SP.DYN.IMRT.IN'), ('san', 'SH.STA.BASS.ZS'),
-                        ('hom', 'VC.IHR.PSRC.P5'), ('des', 'SL.UEM.TOTL.ZS')]:
-        s = serie(df, code, 'BRA')
-        D['soc'][chave] = {y: round(s[y], 1) for y in range(2002, 2026) if y in s.index}
+        bra = serie(df, code, 'BRA')
+        bra_idx = bra / bra[2002] * 100
+        lac_idx, g20_idx = idx_grupo(code, LAC), idx_grupo(code, G20)
+        D['idx'][chave] = {n: {y: (round(s[y], 1) if y in s.index and pd.notna(s[y]) else None)
+                               for y in range(2002, 2027)}
+                           for n, s in [('bra', bra_idx), ('lac', lac_idx), ('g20', g20_idx)]}
 
     # --- grade de disponibilidade: anos OBSERVADOS, sem interpolação ---
     D['grid'] = []
@@ -76,19 +90,6 @@ def main():
         anos = set(df[(df.indicador == 'SI.POV.GINI') & (df.iso == iso)].ano)
         marca = [1 if y in anos else 0 for y in range(2002, 2025)]
         D['grid'].append({'pais': nome, 'anos': marca, 'n': sum(marca)})
-
-    # --- tabela de pobreza por regime, nas duas medidas ---
-    D['tab2'] = []
-    for nome, a, b in REGIMES:
-        br = variacao(serie(df, 'SI.POV.DDAY', 'BRA'), a, b)
-        r = {'reg': nome, 'br_ini': round(br['ini'], 1),
-             'br_pp': round(br['pp'], 1), 'br_rel': round(br['rel'], 0)}
-        for g, isos in [('lac', LAC), ('g20', G20), ('exp', EXP)]:
-            m, n = mediana_grupo(df, 'SI.POV.DDAY', isos, a, b)
-            r[g + '_n'] = n
-            r[g + '_pp'] = round(m['pp'], 1) if m else None
-            r[g + '_rel'] = round(m['rel'], 0) if m else None
-        D['tab2'].append(r)
 
     # --- respostas às cinco perguntas: 2002 contra o último ano disponível ---
     D['ans'] = []
@@ -118,6 +119,10 @@ def main():
             D['fome'][iso] = {int(k): round(v, 1) for k, v in s.items()}
     lacf = pd.DataFrame({i: pd.Series(D['fome'][i]) for i in LAC if i in D['fome']})
     D['fome']['LAC_MED'] = {int(k): round(v, 1) for k, v in lacf.median(axis=1).items()}
+    # G20 sem China: só Indonésia e África do Sul têm a série. Índia, Turquia
+    # e China não têm dado FIES, então essa mediana é fraca e é rotulada como tal.
+    g20f = pd.DataFrame({i: pd.Series(D['fome'][i]) for i in ['IDN', 'ZAF'] if i in D['fome']})
+    D['fome']['G20_MED'] = {int(k): round(v, 1) for k, v in g20f.median(axis=1).items()}
 
     # --- efeito da regra de cobertura sobre o resultado do boom ---
     todos = [variacao(serie(df, 'SI.POV.DDAY', i), 2003, 2011) for i in G20]
