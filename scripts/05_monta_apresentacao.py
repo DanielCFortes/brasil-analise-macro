@@ -367,6 +367,26 @@ S.push(`
 `);
 
 S.push(`
+<span class="qtag">Perguntas 1 e 5</span>
+<h2>Contra quem o Brasil está sendo comparado?</h2>
+<p class="mute" style="font-size:.86rem">Crescimento acumulado do PIB per capita em PPC, 2000 a 2025, com as pontas suavizadas por média de três anos para que um ano de crise ou de pico de commodity não decida o resultado. Em verde, quem largou de uma renda parecida com a do Brasil em 2000.</p>
+<div class="chartwrap">__CH_PARES__</div>
+<p style="margin-top:1.2vh">Entre os sete países que largaram de renda parecida, <b>o Brasil é o quarto</b>: cresceu menos que Turquia, Chile e Colômbia, e mais que Argentina, África do Sul e México. A leitura robusta é essa posição no meio da tabela, não o valor exato do diferencial.</p>
+<div class="body"><div class="col">
+<h3>O veredito muda com o grupo</h3>
+__TAB_PARES__
+</div><div class="col stack">
+<div class="note">O mesmo Brasil, o mesmo período e o mesmo indicador produzem um diferencial de <b>&minus;7</b> a <b>&minus;99 pontos</b> só trocando quem entra na conta. Comparar com Índia e Indonésia, que largaram de um quarto e de metade da renda brasileira, é medir efeito de largada, não desempenho.</div>
+</div></div>
+<div class="defs">
+<div><b>Regra da largada.</b> Entra no grupo quem tinha, em 2000, renda per capita em PPC entre 75% e 160% da brasileira. O critério é numérico, foi fixado antes de olhar o resultado e vale igualmente para todos.</div>
+<div><b>Por que isso importa.</b> País mais pobre tende a crescer mais rápido em porcentagem, simplesmente por partir de uma base menor. Sem controlar a largada, todo ranking de crescimento vira um ranking de quem era mais pobre em 2000.</div>
+<div><b>O limite desta página.</b> Nenhum destes grupos controla estrutura produtiva, choque de termos de troca ou regime cambial. Também não há intervalo de confiança: com cinco ou seis países, a mediana é frágil e diferenças de poucos pontos entre vizinhos não significam nada.</div>
+<div><b>Referência externa.</b> O agregado de renda média-alta do Banco Mundial cresceu <span class="num">180%</span> no período, mas é puxado pela China e por países que largaram muito abaixo do Brasil. Serve de contexto, não de meta.</div>
+</div>
+`);
+
+S.push(`
 <span class="qtag">Pergunta 1</span>
 <h2>Big Mac Index: o real segue mais barato que os pares</h2>
 <p class="mute" style="font-size:.86rem">Checkpoints discretos de 2002 a 2025, não série anual. A reta entre pontos é só a distância no tempo — não há interpolação de ano intermediário.</p>
@@ -665,6 +685,35 @@ function buildup(rows, opts){
   });
   return g+'</svg>';
 }
+/* uma barra por país: crescimento acumulado, Brasil destacado e o grupo de
+   comparação em cor própria. Rótulo de valor em coluna fixa, como no build-up. */
+function barrasPais(rows, opts){
+  opts = opts||{};
+  const W=980, rowH=27, mt=6, labW=152, valW=70;
+  const H = rowH*rows.length + mt;
+  const max = Math.max(...rows.map(r=>r.cresc), 1);
+  const X = v => labW + (v/max)*(W-labW-valW);
+  let g='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+(opts.alt||'crescimento por pais')+'">';
+  rows.forEach((r,i)=>{
+    const by = mt+i*rowH+4, bh = rowH-11, base = by+bh-3;
+    const br = r.iso==='BRA';
+    g += '<text x="'+(labW-9)+'" y="'+base+'" fill="'+(br?'#F1EEE5':'#8598A2')+'" text-anchor="end" font-size="12.5" font-family="IBM Plex Sans"'+(br?' font-weight="600"':'')+'>'+r.nome+'</text>';
+    g += '<rect x="'+labW+'" y="'+by+'" width="'+Math.max(X(r.cresc)-labW,1.5)+'" height="'+bh+'" fill="'+(br?'#E8A33D':(r.largada?'#6FA8A0':'#3A4E59'))+'" rx="2"/>';
+    g += '<text x="'+(W-valW+9)+'" y="'+base+'" fill="'+(br?'#E8A33D':'#8598A2')+'" font-size="12" font-family="IBM Plex Mono">+'+r.cresc+'%</text>';
+  });
+  return g+'</svg>';
+}
+function gruposTabela(){
+  const P = D.pares;
+  let h='<table><tr><th>Grupo de comparação</th><th style="text-align:right">n</th>'
+       +'<th style="text-align:right">mediana</th><th style="text-align:right">Brasil menos o grupo</th></tr>';
+  P.grupos.forEach(gr=>{
+    h+='<tr'+(gr.nome==='Largou perto do Brasil'?' class="hl"':'')+'><td>'+gr.nome+'</td>'
+      +'<td class="n mute">'+gr.n+'</td><td class="n mute">+'+gr.mediana+'%</td>'
+      +'<td class="n '+(gr.dif<0?'bad':'good')+'">'+gr.dif+' pp</td></tr>';
+  });
+  return h+'</table>';
+}
 function ansRows(q, inv){
   return D.ans.filter(r=>r.q===q).map(r=>({
     label: r.ind, unit: r.unid, dec: (r.unid==='int$')?0:1,
@@ -713,7 +762,9 @@ S.forEach((html,i)=>{
              .replace('__ANS_P2__',buildup(ansRows('P2',['Participação dos 40% mais pobres']),{alt:'pergunta 2'}))
              .replace('__ANS_P3__',buildup(ansRows('P3',['Saneamento básico','Ensino médio completo (25+)']),{alt:'pergunta 3'}))
              .replace('__ANS_P4__',buildup(ansRows('P4b',[]),{alt:'pergunta 4b'}))
-             .replace('__CH_FOME__',fomeChart());
+             .replace('__CH_FOME__',fomeChart())
+             .replace('__CH_PARES__',barrasPais(D.pares.paises,{alt:'crescimento por pais'}))
+             .replace('__TAB_PARES__',gruposTabela());
   Object.keys(CH).forEach(k=>{h=h.replace('__'+k+'__',CH[k]);});
   const d=document.createElement('section');
   d.className='slide'; d.innerHTML=h; d.setAttribute('aria-hidden','true');

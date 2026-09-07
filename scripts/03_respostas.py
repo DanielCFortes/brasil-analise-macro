@@ -15,6 +15,10 @@ LAC = ['MEX', 'COL', 'CHL', 'PER', 'ARG', 'ECU']
 G20 = ['IND', 'IDN', 'ZAF', 'TUR', 'MEX']
 EXP = ['CHL', 'COL', 'PER', 'ZAF', 'IDN']
 
+NOMES = {'BRA': 'Brasil', 'MEX': 'México', 'COL': 'Colômbia', 'CHL': 'Chile',
+         'PER': 'Peru', 'ARG': 'Argentina', 'ECU': 'Equador', 'IND': 'Índia',
+         'IDN': 'Indonésia', 'ZAF': 'África do Sul', 'TUR': 'Turquia', 'CHN': 'China'}
+
 
 # pergunta, codigo, rotulo, unidade, casas decimais
 IND_RESP = [
@@ -100,6 +104,46 @@ def main():
             r[g + '_pp'] = round(m['pp'], dec) if m else None
             r[g + '_rel'] = round(m['rel'], 0) if m and m['rel'] is not None else None
         D['ans'].append(r)
+
+    # --- crescimento contra diferentes conjuntos de pares ---
+    # A escolha do grupo de comparação muda o veredito, então o deck publica todos
+    # os grupos candidatos lado a lado em vez de escolher um e omitir os outros.
+    # Pontas suavizadas por média de 3 anos: um ano de ponta atípico, de crise ou de
+    # pico de commodity, não decide o resultado inteiro.
+    BANDA = (0.75, 1.60)   # renda de 2000 relativa à do Brasil, congelada antes de olhar
+    pib = df[df.indicador == 'NY.GDP.PCAP.PP.KD'].copy()
+    pib['iso'] = pib['iso'].fillna('UMC')
+    piv = pib.pivot_table(index='ano', columns='iso', values='valor')
+    r_ini, r_fim = piv.loc[1999:2001].mean(), piv.loc[2023:2025].mean()
+    cres = (r_fim / r_ini - 1) * 100
+
+    paises = [i for i in cres.index if i != 'UMC']
+    renda_br = r_ini['BRA']
+    LARGADA = [i for i in paises if i != 'BRA'
+               and renda_br * BANDA[0] <= r_ini[i] <= renda_br * BANDA[1]]
+
+    def bloco(isos):
+        isos = [i for i in isos if i in cres.index]
+        return {'isos': isos, 'n': len(isos),
+                'mediana': round(float(cres[isos].median()), 0),
+                'dif': round(float(cres['BRA'] - cres[isos].median()), 0)}
+
+    D['pares'] = {
+        'banda': list(BANDA),
+        'brasil': round(float(cres['BRA']), 0),
+        'umc': round(float(cres['UMC']), 0),
+        'paises': [{'iso': i, 'nome': NOMES[i],
+                    'ini': round(float(r_ini[i]), 0), 'fim': round(float(r_fim[i]), 0),
+                    'cresc': round(float(cres[i]), 0),
+                    'largada': i in LARGADA or i == 'BRA'}
+                   for i in sorted(paises, key=lambda x: -cres[x])],
+        'grupos': [{'nome': 'América Latina', **bloco(LAC)},
+                   {'nome': 'G20 emergentes sem China', **bloco(G20)},
+                   {'nome': 'Exportadores de commodities', **bloco(EXP)},
+                   {'nome': 'Largou perto do Brasil', **bloco(LARGADA)},
+                   {'nome': 'Largou perto e exporta commodities',
+                    **bloco([i for i in LARGADA if i in EXP])}],
+    }
 
     # --- insegurança alimentar ---
     D['fome'] = {}
