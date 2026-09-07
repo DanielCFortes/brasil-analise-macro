@@ -566,18 +566,20 @@ __TAB_PLACAR_SOC__
 S.push(`
 <div class="eyebrow">Fechamento</div>
 <h2>A conclusão que o placar sustenta</h2>
-<div class="body"><div class="col stack">
+<p class="mute" style="font-size:.86rem">Posição média do Brasil entre os sete países, por recorte. <b style="color:var(--br)">Bola cheia</b> é a trajetória desde 2000, <b style="color:var(--grp)">bola vazada</b> é o nível de hoje. A linha vertical grossa é o meio exato do grupo.</p>
+<div class="chartwrap">__ESCALA_VEREDITO__</div>
+<div class="body" style="margin-top:1vh"><div class="col stack">
 <h3 style="color:var(--grp)">O que o Brasil fez bem</h3>
-<p><b>A trajetória social foi melhor que a dos pares.</b> Em variação desde 2000, o Brasil é <b>1º de 7</b> em conclusão do ensino médio, <b>2º</b> em saneamento, água potável e queda de homicídios, e <b>3º</b> em pobreza extrema e mortalidade infantil. Também é o país com <b>menor insegurança alimentar</b> do grupo hoje.</p>
-<p class="mute">Some-se a isso a estabilidade macro que o grupo não teve: inflação de 6% enquanto Turquia está em 48% e Argentina em 119%.</p>
+<p><b>Serviços públicos e segurança: muito melhor que os pares.</b> Em variação desde 2000, o Brasil é <b>1º de 7</b> em conclusão do ensino médio — com margem grande, 1,6 desvio acima da mediana —, <b>2º</b> em saneamento e em queda de homicídios, e <b>3º</b> em mortalidade infantil. É também o país com <b>menor insegurança alimentar</b> do grupo hoje.</p>
 </div><div class="col stack">
 <h3 style="color:var(--warn)">O que o Brasil não fez</h3>
-<p><b>A base econômica que sustentaria isso não foi construída.</b> O Brasil é <b>6º de 7</b> em produtividade e em comércio sobre PIB, <b>5º</b> em PIB per capita e investimento, e o <b>mais endividado</b> dos que têm dado. Em variação não é melhor: 5º em renda e produtividade, 6º em investimento.</p>
-<p class="mute">O investimento brasileiro é de 17,5% do PIB e caiu no período. O da Turquia é de 34%.</p>
+<p><b>Capacidade econômica: pior que os pares, nas duas leituras.</b> É <b>6º de 7</b> em produtividade e comércio sobre PIB, <b>5º</b> em PIB per capita e investimento, e o <b>mais endividado</b> dos que têm dado. Em variação segue atrás: 5º em renda e produtividade, 6º em investimento. Investe 17,5% do PIB, contra 34% da Turquia.</p>
 </div></div>
-<div class="note" style="margin-top:1.8vh"><b>O veredito, em uma frase:</b> o Brasil distribuiu melhor do que cresceu. Avançou mais que os pares em quase todo indicador social e menos que eles em quase todo indicador econômico — e, como partiu de trás em nível, continua na metade de baixo do grupo em quase tudo. <b>A melhora social foi real e é o principal resultado do período; a pergunta em aberto é com que motor ela continua</b>, já que produtividade, investimento e abertura, que pagariam a conta, são exatamente onde o Brasil ficou para trás.</div>
+<div class="note" style="margin-top:1.4vh"><b>O veredito, em uma frase:</b> o Brasil entregou serviço público sem construir a economia que o paga. Foi <b>muito melhor</b> que os pares em educação, saneamento, mortalidade infantil e homicídios; foi <b>pior</b> em produtividade, investimento e abertura; e ficou <b>praticamente igual</b> a eles em distribuição de renda, que é onde a narrativa corrente costuma dar ao Brasil um destaque que o dado, contra estes seis pares, não sustenta. Como partiu de trás em nível, segue na metade de baixo do grupo em quase tudo.</div>
 <div class="defs">
+<div><b>A surpresa da decomposição.</b> Contra a mediana do G20, a queda do Gini brasileiro parece excepcional. Contra os seis que largaram junto, não é: em pobreza, Gini e renda dos 40% mais pobres o Brasil está a <span class="num">0,0</span> desvio da mediana do grupo — exatamente no meio. Argentina, Chile, Colômbia e México também distribuíram no período. O que distingue o Brasil é serviço público, não distribuição.</div>
 <div><b>Por que separar nível de variação.</b> As duas leituras divergem e essa divergência é o achado. Em saneamento o Brasil é 5º de 6 em nível e 2º de 6 em avanço: melhorou rápido, mas partiu de baixo e ainda não alcançou. Publicar só uma das duas contaria metade da história.</div>
+<div><b>Por que a posição no ranking engana.</b> O Brasil é 2º em queda de homicídios, mas a apenas 0,24 desvio da mediana e a 2 desvios da Colômbia, que despencou. Posição alta com margem pequena é empate, não vitória. Por isso a escala usa a distância, e não só o lugar.</div>
 <div><b>O que este placar não responde.</b> Nada aqui é causal. Não há como separar política pública de ciclo de commodities, de demografia ou de herança dos anos 90. E a comparação é sempre entre sete países: com esse tamanho de amostra, uma posição de diferença não significa quase nada.</div>
 <div><b>O que falta para fechar de verdade.</b> Toda a desagregação por raça, região e gênero, que é o Tier 2 e continua sem extração. Numa análise sobre o Brasil, é possível que a diferença interna seja maior que qualquer diferença contra a Turquia.</div>
 </div>
@@ -752,6 +754,40 @@ function gruposTabela(){
   });
   return h+'</table>';
 }
+/* escala graduada do veredito: para cada recorte, onde o Brasil cai entre
+   "muito pior" e "muito melhor". Bola cheia é a trajetória desde 2000, bola
+   vazada é o nível de hoje. As duas divergem, e é isso que a escala mostra. */
+function escalaVeredito(recortes){
+  const V = D.placar.veredito, rot = D.placar.escala;
+  const W=980, labW=250, rowH=62, topo=44, mr=18;
+  const linhas = recortes.map(t=>({titulo:t,
+      va: V.find(v=>v.titulo===t && v.leitura==='variação'),
+      ni: V.find(v=>v.titulo===t && v.leitura==='nível')})).filter(l=>l.va||l.ni);
+  const H = topo + rowH*linhas.length;
+  const x0 = labW, x1 = W-mr, larg = x1-x0;
+  const X = pct => x0 + (1-pct)*larg;   // 0 = melhor do grupo, fica à direita
+  let g='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="veredito graduado">';
+  // faixas de rótulo, da pior à melhor, para o leitor não precisar decorar a escala
+  const faixas = rot.slice().reverse();
+  faixas.forEach((r,i)=>{
+    const cx = x0 + (i+0.5)/faixas.length*larg;
+    g += '<text x="'+cx+'" y="18" fill="#5E7480" font-size="10.5" font-family="IBM Plex Sans" text-anchor="middle">'+r+'</text>';
+    if(i) g += '<line x1="'+(x0+i/faixas.length*larg)+'" x2="'+(x0+i/faixas.length*larg)+'" y1="26" y2="'+(H-8)+'" stroke="#2A3F4A" stroke-width="1"/>';
+  });
+  g += '<line x1="'+X(0.5)+'" x2="'+X(0.5)+'" y1="26" y2="'+(H-8)+'" stroke="#5E7480" stroke-width="1.5"/>';
+  linhas.forEach((l,i)=>{
+    const y = topo + i*rowH + rowH/2 - 8;
+    g += '<text x="'+(labW-14)+'" y="'+(y+4)+'" fill="#D3D0C7" font-size="13.5" font-family="IBM Plex Sans" text-anchor="end">'+l.titulo+'</text>';
+    if(l.va){
+      g += '<circle cx="'+X(l.va.pct)+'" cy="'+y+'" r="7" fill="#E8A33D"/>';
+      g += '<text x="'+X(l.va.pct)+'" y="'+(y+22)+'" fill="#8598A2" font-size="10" font-family="IBM Plex Sans" text-anchor="middle">'+l.va.rotulo+'</text>';
+    }
+    if(l.ni){
+      g += '<circle cx="'+X(l.ni.pct)+'" cy="'+y+'" r="7" fill="none" stroke="#6FA8A0" stroke-width="2"/>';
+    }
+  });
+  return g+'</svg>';
+}
 /* placar: uma linha por indicador, com a posição do Brasil entre os sete países.
    Verde para o terço de cima, vermelho para o terço de baixo, cinza no meio. */
 function placarTabela(bloco){
@@ -821,7 +857,10 @@ S.forEach((html,i)=>{
              .replace('__CH_PARES__',barrasPais(D.pares.paises,{alt:'crescimento por pais'}))
              .replace('__TAB_PARES__',gruposTabela())
              .replace('__TAB_PLACAR_ECO__',placarTabela('eco'))
-             .replace('__TAB_PLACAR_SOC__',placarTabela('soc'));
+             .replace('__TAB_PLACAR_SOC__',placarTabela('soc'))
+             .replace('__ESCALA_VEREDITO__',escalaVeredito(
+               ['Social · serviços e segurança','Social · distribuição',
+                'Econômico · estabilidade','Econômico · capacidade']));
   Object.keys(CH).forEach(k=>{h=h.replace('__'+k+'__',CH[k]);});
   const d=document.createElement('section');
   d.className='slide'; d.innerHTML=h; d.setAttribute('aria-hidden','true');
