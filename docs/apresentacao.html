@@ -555,23 +555,14 @@ __TAB_PLACAR_SOC__
 
 S.push(`
 <div class="eyebrow">Fechamento</div>
-<h2>A conclusão que o placar sustenta</h2>
-<p class="mute" style="font-size:.86rem">Posição média do Brasil entre os sete países, por recorte. <b style="color:var(--br)">Bola cheia</b> é a trajetória desde 2000, <b style="color:var(--grp)">bola vazada</b> é o nível de hoje. A linha vertical grossa é o meio exato do grupo.</p>
-<div class="chartwrap">__ESCALA_VEREDITO__</div>
-<div class="body" style="margin-top:1vh"><div class="col stack">
-<h3 style="color:var(--grp)">O que o Brasil fez bem</h3>
-<p><b>Serviços públicos e segurança: muito melhor que os pares.</b> Em variação desde 2000, o Brasil é <b>1º de 7</b> em conclusão do ensino médio — com margem grande, 1,6 desvio acima da mediana —, <b>2º</b> em saneamento e em queda de homicídios, e <b>3º</b> em mortalidade infantil. É também o país com <b>menor insegurança alimentar</b> do grupo hoje.</p>
-</div><div class="col stack">
-<h3 style="color:var(--warn)">O que o Brasil não fez</h3>
-<p><b>Capacidade econômica: pior que os pares, nas duas leituras.</b> É <b>6º de 7</b> em produtividade e comércio sobre PIB, <b>5º</b> em PIB per capita e investimento, e o <b>mais endividado</b> dos que têm dado. Em variação segue atrás: 5º em renda e produtividade, 6º em investimento. Investe 17,5% do PIB, contra 34% da Turquia.</p>
-</div></div>
-<div class="note" style="margin-top:1.4vh"><b>O veredito, em uma frase:</b> o Brasil entregou serviço público sem construir a economia que o paga. Foi <b>muito melhor</b> que os pares em educação, saneamento, mortalidade infantil e homicídios; foi <b>pior</b> em produtividade, investimento e abertura; e ficou <b>praticamente igual</b> a eles em distribuição de renda, que é onde a narrativa corrente costuma dar ao Brasil um destaque que o dado, contra estes seis pares, não sustenta. Como partiu de trás em nível, segue na metade de baixo do grupo em quase tudo.</div>
+<h2>O Brasil entregou serviço público sem construir a economia que o paga</h2>
+<p class="lede" style="margin-top:1.2vh">Contra os seis países que largaram junto com ele, desde 2000:</p>
+<div class="chartwrap" style="margin-top:1.6vh">__ESCALA_VEREDITO__</div>
+<div class="note" style="margin-top:1.2vh">O que mais surpreende é a linha do meio. <b>Em distribuição de renda o Brasil ficou igual aos pares</b>, não à frente: pobreza, Gini e renda dos 40% mais pobres estão todos a menos de 0,05 desvio da mediana do grupo. Argentina, Chile, Colômbia e México também distribuíram no período. O destaque brasileiro em distribuição só aparece quando a comparação é contra a mediana do G20, que inclui países que largaram muito abaixo.</div>
 <div class="defs">
-<div><b>A surpresa da decomposição.</b> Contra a mediana do G20, a queda do Gini brasileiro parece excepcional. Contra os seis que largaram junto, não é: em pobreza, Gini e renda dos 40% mais pobres o Brasil está a <span class="num">0,0</span> desvio da mediana do grupo — exatamente no meio. Argentina, Chile, Colômbia e México também distribuíram no período. O que distingue o Brasil é serviço público, não distribuição.</div>
-<div><b>Por que separar nível de variação.</b> As duas leituras divergem e essa divergência é o achado. Em saneamento o Brasil é 5º de 6 em nível e 2º de 6 em avanço: melhorou rápido, mas partiu de baixo e ainda não alcançou. Publicar só uma das duas contaria metade da história.</div>
-<div><b>Por que a posição no ranking engana.</b> O Brasil é 2º em queda de homicídios, mas a apenas 0,24 desvio da mediana e a 2 desvios da Colômbia, que despencou. Posição alta com margem pequena é empate, não vitória. Por isso a escala usa a distância, e não só o lugar.</div>
-<div><b>O que este placar não responde.</b> Nada aqui é causal. Não há como separar política pública de ciclo de commodities, de demografia ou de herança dos anos 90. E a comparação é sempre entre sete países: com esse tamanho de amostra, uma posição de diferença não significa quase nada.</div>
-<div><b>O que falta para fechar de verdade.</b> Toda a desagregação por raça, região e gênero, que é o Tier 2 e continua sem extração. Numa análise sobre o Brasil, é possível que a diferença interna seja maior que qualquer diferença contra a Turquia.</div>
+<div><b>Como ler a barra.</b> É a posição média do Brasil entre os sete países, em cada recorte, na variação desde 2000. Quanto mais longe do centro, maior a distância para a mediana do grupo. O nível de hoje aparece embaixo do rótulo porque quase sempre diverge: o Brasil melhorou rápido, mas partiu de trás e em vários indicadores ainda não alcançou.</div>
+<div><b>Posição alta com margem pequena é empate.</b> O Brasil é 2º em queda de homicídios, mas a 0,24 desvio da mediana e a 2 desvios da Colômbia. Por isso o veredito usa distância, e não só o lugar no ranking.</div>
+<div><b>O que isto não responde.</b> Nada aqui é causal, e são só sete países. Falta toda a desagregação por raça, região e gênero: numa análise sobre o Brasil, a diferença interna pode ser maior que qualquer diferença contra a Turquia.</div>
 </div>
 `);
 
@@ -748,33 +739,27 @@ function gruposTabela(){
    "muito pior" e "muito melhor". Bola cheia é a trajetória desde 2000, bola
    vazada é o nível de hoje. As duas divergem, e é isso que a escala mostra. */
 function escalaVeredito(recortes){
-  const V = D.placar.veredito, rot = D.placar.escala;
-  const W=980, labW=250, rowH=62, topo=44, mr=18;
+  const V = D.placar.veredito;
+  const W=980, labW=232, barIni=252, barFim=690, colV=712, rowH=74, topo=26;
+  const meio=(barIni+barFim)/2, meiaLarg=(barFim-barIni)/2, ESC=0.35;
   const linhas = recortes.map(t=>({titulo:t,
       va: V.find(v=>v.titulo===t && v.leitura==='variação'),
-      ni: V.find(v=>v.titulo===t && v.leitura==='nível')})).filter(l=>l.va||l.ni);
+      ni: V.find(v=>v.titulo===t && v.leitura==='nível')}))
+    .filter(l=>l.va).sort((a,b)=>a.va.pct-b.va.pct);   // do melhor para o pior
   const H = topo + rowH*linhas.length;
-  const x0 = labW, x1 = W-mr, larg = x1-x0;
-  const X = pct => x0 + (1-pct)*larg;   // 0 = melhor do grupo, fica à direita
-  let g='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="veredito graduado">';
-  // faixas de rótulo, da pior à melhor, para o leitor não precisar decorar a escala
-  const faixas = rot.slice().reverse();
-  faixas.forEach((r,i)=>{
-    const cx = x0 + (i+0.5)/faixas.length*larg;
-    g += '<text x="'+cx+'" y="18" fill="#5E7480" font-size="10.5" font-family="IBM Plex Sans" text-anchor="middle">'+r+'</text>';
-    if(i) g += '<line x1="'+(x0+i/faixas.length*larg)+'" x2="'+(x0+i/faixas.length*larg)+'" y1="26" y2="'+(H-8)+'" stroke="#2A3F4A" stroke-width="1"/>';
-  });
-  g += '<line x1="'+X(0.5)+'" x2="'+X(0.5)+'" y1="26" y2="'+(H-8)+'" stroke="#5E7480" stroke-width="1.5"/>';
+  let g='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="veredito por recorte">';
+  g += '<text x="'+(meio-14)+'" y="14" fill="#5E7480" font-size="11" font-family="IBM Plex Sans" text-anchor="end">pior que os pares</text>';
+  g += '<text x="'+(meio+14)+'" y="14" fill="#5E7480" font-size="11" font-family="IBM Plex Sans">melhor que os pares</text>';
+  g += '<line x1="'+meio+'" x2="'+meio+'" y1="20" y2="'+(H-10)+'" stroke="#5E7480" stroke-width="1.5"/>';
   linhas.forEach((l,i)=>{
-    const y = topo + i*rowH + rowH/2 - 8;
-    g += '<text x="'+(labW-14)+'" y="'+(y+4)+'" fill="#D3D0C7" font-size="13.5" font-family="IBM Plex Sans" text-anchor="end">'+l.titulo+'</text>';
-    if(l.va){
-      g += '<circle cx="'+X(l.va.pct)+'" cy="'+y+'" r="7" fill="#E8A33D"/>';
-      g += '<text x="'+X(l.va.pct)+'" y="'+(y+22)+'" fill="#8598A2" font-size="10" font-family="IBM Plex Sans" text-anchor="middle">'+l.va.rotulo+'</text>';
-    }
-    if(l.ni){
-      g += '<circle cx="'+X(l.ni.pct)+'" cy="'+y+'" r="7" fill="none" stroke="#6FA8A0" stroke-width="2"/>';
-    }
+    const y = topo + i*rowH + 18, bh = 26;
+    const dev = 0.5 - l.va.pct;                     // positivo = melhor que a mediana
+    const larg = Math.min(Math.abs(dev)/ESC, 1) * meiaLarg;
+    const cor = Math.abs(dev) < 0.06 ? '#54707E' : (dev > 0 ? '#8FC7A8' : '#DE8A76');
+    g += '<text x="'+labW+'" y="'+(y+18)+'" fill="#D3D0C7" font-size="15" font-family="IBM Plex Sans" text-anchor="end">'+l.titulo+'</text>';
+    g += '<rect x="'+(dev>0?meio:meio-larg)+'" y="'+y+'" width="'+Math.max(larg,2)+'" height="'+bh+'" fill="'+cor+'" rx="2"/>';
+    g += '<text x="'+colV+'" y="'+(y+13)+'" fill="'+cor+'" font-size="16" font-family="IBM Plex Sans" font-weight="600">'+l.va.rotulo+'</text>';
+    if(l.ni) g += '<text x="'+colV+'" y="'+(y+29)+'" fill="#5E7480" font-size="11.5" font-family="IBM Plex Sans">no nível de hoje: '+l.ni.rotulo+'</text>';
   });
   return g+'</svg>';
 }
