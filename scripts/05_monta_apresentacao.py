@@ -371,7 +371,13 @@ S.push(`
 <h2>Contra quem o Brasil está sendo comparado?</h2>
 <p class="mute" style="font-size:.86rem">Crescimento acumulado do PIB per capita em PPC, 2000 a 2025, com as pontas suavizadas por média de três anos para que um ano de crise ou de pico de commodity não decida o resultado. Em verde, quem largou de uma renda parecida com a do Brasil em 2000.</p>
 <div class="chartwrap">__CH_PARES__</div>
+<div class="legend" style="margin-top:.8vh">
+<span><b style="background:var(--br)"></b>Brasil</span>
+<span><b style="background:var(--grp)"></b>Largou de renda parecida com a do Brasil em 2000</span>
+<span><b style="background:#3A4E59"></b>Largou de patamar diferente, fora do grupo</span>
+</div>
 <p style="margin-top:1.2vh">Entre os sete países que largaram de renda parecida, <b>o Brasil é o quarto</b>: cresceu menos que Turquia, Chile e Colômbia, e mais que Argentina, África do Sul e México. A leitura robusta é essa posição no meio da tabela, não o valor exato do diferencial.</p>
+<p style="margin-top:.9vh">O par estrutural mais próximo é a <b>África do Sul</b>: exportador de commodities, renda média, desigualdade alta e redemocratização no mesmo período. Cresceu <span class="num">22%</span>, contra <span class="num">41%</span> do Brasil. Qualquer leitura de que o Brasil foi o pior da turma precisa explicar por que o país mais parecido com ele foi pior ainda.</p>
 <div class="body"><div class="col">
 <h3>O veredito muda com o grupo</h3>
 __TAB_PARES__
@@ -381,7 +387,9 @@ __TAB_PARES__
 <div class="defs">
 <div><b>Regra da largada.</b> Entra no grupo quem tinha, em 2000, renda per capita em PPC entre 75% e 160% da brasileira. O critério é numérico, foi fixado antes de olhar o resultado e vale igualmente para todos.</div>
 <div><b>Por que isso importa.</b> País mais pobre tende a crescer mais rápido em porcentagem, simplesmente por partir de uma base menor. Sem controlar a largada, todo ranking de crescimento vira um ranking de quem era mais pobre em 2000.</div>
-<div><b>O limite desta página.</b> Nenhum destes grupos controla estrutura produtiva, choque de termos de troca ou regime cambial. Também não há intervalo de confiança: com cinco ou seis países, a mediana é frágil e diferenças de poucos pontos entre vizinhos não significam nada.</div>
+<div><b>O que explica a Turquia, o primeiro do grupo.</b> Não é ano-base: a Turquia cresce entre 137% e 161% com qualquer largada entre 1997 e 2003, apesar da crise bancária de 2001. É investimento e integração. A Turquia investiu em média <span class="num">30%</span> do PIB entre 2002 e 2024 e chegou a <span class="num">35%</span>, enquanto o Brasil ficou em <span class="num">18%</span> e caiu para <span class="num">17%</span>. A produtividade por ocupado dobrou lá e subiu <span class="num">21%</span> aqui, e o comércio saltou de 43% para 67% do PIB, contra 24% para 36% no Brasil. O custo aparece na inflação: média de <span class="num">19%</span> ao ano contra <span class="num">6%</span> do Brasil, e 62% em 2023.</div>
+<div><b>O limite desta página.</b> Nenhum destes grupos controla estrutura produtiva, choque de termos de troca ou regime cambial. Também não há intervalo de confiança: com cinco ou seis países, a mediana é frágil e diferenças de poucos pontos entre vizinhos não significam nada. E crescimento em PPC mede volume produzido, não poder de compra em dólar: a Turquia cresce muito nesta régua com a lira derretendo em paralelo.</div>
+<div><b>Ressalva da África do Sul.</b> Ser o par estrutural mais próximo não faz dela um espelho: a epidemia de HIV nos anos 2000, o legado do apartheid e a crise elétrica do último decênio são choques sem paralelo brasileiro. Serve para calibrar expectativa, não para absolver.</div>
 <div><b>Referência externa.</b> O agregado de renda média-alta do Banco Mundial cresceu <span class="num">180%</span> no período, mas é puxado pela China e por países que largaram muito abaixo do Brasil. Serve de contexto, não de meta.</div>
 </div>
 `);
