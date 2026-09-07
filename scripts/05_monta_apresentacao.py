@@ -554,6 +554,36 @@ S.push(`
 `);
 
 S.push(`
+<div class="eyebrow">Fechamento</div>
+<h2>O placar contra os seis pares que largaram junto</h2>
+<p class="mute" style="font-size:.86rem">Argentina, Chile, Colômbia, México, Turquia e África do Sul — os seis países com renda per capita parecida com a do Brasil em 2000. Não é mediana de grupo: são os seis, um a um. <b>Onde está</b> é a posição do Brasil no nível de hoje (média 2021&ndash;2025). <b>Para onde foi</b> é a posição na variação desde 2000. Verde é terço de cima, vermelho é terço de baixo.</p>
+<h3 style="margin-top:1.4vh">Indicadores econômicos</h3>
+__TAB_PLACAR_ECO__
+<h3 style="margin-top:1.8vh">Indicadores sociais</h3>
+__TAB_PLACAR_SOC__
+`);
+
+S.push(`
+<div class="eyebrow">Fechamento</div>
+<h2>A conclusão que o placar sustenta</h2>
+<div class="body"><div class="col stack">
+<h3 style="color:var(--grp)">O que o Brasil fez bem</h3>
+<p><b>A trajetória social foi melhor que a dos pares.</b> Em variação desde 2000, o Brasil é <b>1º de 7</b> em conclusão do ensino médio, <b>2º</b> em saneamento, água potável e queda de homicídios, e <b>3º</b> em pobreza extrema e mortalidade infantil. Também é o país com <b>menor insegurança alimentar</b> do grupo hoje.</p>
+<p class="mute">Some-se a isso a estabilidade macro que o grupo não teve: inflação de 6% enquanto Turquia está em 48% e Argentina em 119%.</p>
+</div><div class="col stack">
+<h3 style="color:var(--warn)">O que o Brasil não fez</h3>
+<p><b>A base econômica que sustentaria isso não foi construída.</b> O Brasil é <b>6º de 7</b> em produtividade e em comércio sobre PIB, <b>5º</b> em PIB per capita e investimento, e o <b>mais endividado</b> dos que têm dado. Em variação não é melhor: 5º em renda e produtividade, 6º em investimento.</p>
+<p class="mute">O investimento brasileiro é de 17,5% do PIB e caiu no período. O da Turquia é de 34%.</p>
+</div></div>
+<div class="note" style="margin-top:1.8vh"><b>O veredito, em uma frase:</b> o Brasil distribuiu melhor do que cresceu. Avançou mais que os pares em quase todo indicador social e menos que eles em quase todo indicador econômico — e, como partiu de trás em nível, continua na metade de baixo do grupo em quase tudo. <b>A melhora social foi real e é o principal resultado do período; a pergunta em aberto é com que motor ela continua</b>, já que produtividade, investimento e abertura, que pagariam a conta, são exatamente onde o Brasil ficou para trás.</div>
+<div class="defs">
+<div><b>Por que separar nível de variação.</b> As duas leituras divergem e essa divergência é o achado. Em saneamento o Brasil é 5º de 6 em nível e 2º de 6 em avanço: melhorou rápido, mas partiu de baixo e ainda não alcançou. Publicar só uma das duas contaria metade da história.</div>
+<div><b>O que este placar não responde.</b> Nada aqui é causal. Não há como separar política pública de ciclo de commodities, de demografia ou de herança dos anos 90. E a comparação é sempre entre sete países: com esse tamanho de amostra, uma posição de diferença não significa quase nada.</div>
+<div><b>O que falta para fechar de verdade.</b> Toda a desagregação por raça, região e gênero, que é o Tier 2 e continua sem extração. Numa análise sobre o Brasil, é possível que a diferença interna seja maior que qualquer diferença contra a Turquia.</div>
+</div>
+`);
+
+S.push(`
 <h2>Quatro limitações que quebram a especificação</h2>
 <p style="margin-bottom:1.4vh">Não são detalhes de execução. Exigem decisão antes de congelar.</p>
 <div class="body"><div class="col">
@@ -722,6 +752,23 @@ function gruposTabela(){
   });
   return h+'</table>';
 }
+/* placar: uma linha por indicador, com a posição do Brasil entre os sete países.
+   Verde para o terço de cima, vermelho para o terço de baixo, cinza no meio. */
+function placarTabela(bloco){
+  const cor = (r,n) => r===null ? 'mute' : (r<=Math.ceil(n/3) ? 'good' : (r>n-Math.ceil(n/3) ? 'bad' : 'mute'));
+  const cel = (r,n) => r===null ? '<td class="n mute">sem base</td>'
+    : '<td class="n '+cor(r,n)+'">'+r+'º <span class="mute" style="font-size:.82em">de '+n+'</span></td>';
+  let h='<table><tr><th>Indicador</th><th style="text-align:right">Brasil hoje</th>'
+       +'<th style="text-align:right">Onde está</th><th style="text-align:right">Para onde foi</th>'
+       +'<th>Melhor do grupo</th></tr>';
+  D.placar.linhas.filter(l=>l.bloco===bloco).forEach(l=>{
+    h+='<tr><td>'+l.ind+'</td>'
+      +'<td class="n mute">'+Number(l.br).toLocaleString('pt-BR',{minimumFractionDigits:l.dec,maximumFractionDigits:l.dec})+'</td>'
+      +cel(l.rank_niv,l.n_niv)+cel(l.rank_var,l.n_var)
+      +'<td class="mute">'+l.melhor+'</td></tr>';
+  });
+  return h+'</table>';
+}
 function ansRows(q, inv){
   return D.ans.filter(r=>r.q===q).map(r=>({
     label: r.ind, unit: r.unid, dec: (r.unid==='int$')?0:1,
@@ -772,7 +819,9 @@ S.forEach((html,i)=>{
              .replace('__ANS_P4__',buildup(ansRows('P4b',[]),{alt:'pergunta 4b'}))
              .replace('__CH_FOME__',fomeChart())
              .replace('__CH_PARES__',barrasPais(D.pares.paises,{alt:'crescimento por pais'}))
-             .replace('__TAB_PARES__',gruposTabela());
+             .replace('__TAB_PARES__',gruposTabela())
+             .replace('__TAB_PLACAR_ECO__',placarTabela('eco'))
+             .replace('__TAB_PLACAR_SOC__',placarTabela('soc'));
   Object.keys(CH).forEach(k=>{h=h.replace('__'+k+'__',CH[k]);});
   const d=document.createElement('section');
   d.className='slide'; d.innerHTML=h; d.setAttribute('aria-hidden','true');

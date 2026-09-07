@@ -145,6 +145,55 @@ def main():
                     **bloco([i for i in LARGADA if i in EXP])}],
     }
 
+    # --- placar do Brasil contra os seis pares que largaram perto ---
+    # Não é mediana de grupo: são os seis países, um a um. Duas leituras por
+    # indicador, porque elas divergem: onde o Brasil ESTÁ (nível hoje) e para
+    # onde o Brasil FOI (variação no período).
+    PLACAR = [   # codigo, rotulo, bloco, maior_e_melhor, casas decimais
+        ('NY.GDP.PCAP.PP.KD', 'PIB per capita (PPC)',        'eco', True,  0),
+        ('SL.GDP.PCAP.EM.KD', 'Produtividade por ocupado',   'eco', True,  0),
+        ('NE.GDI.TOTL.ZS',    'Investimento sobre PIB',      'eco', True,  1),
+        ('NE.TRD.GNFS.ZS',    'Comércio sobre PIB',          'eco', True,  1),
+        ('SL.UEM.TOTL.ZS',    'Desemprego',                  'eco', False, 1),
+        ('FP.CPI.TOTL.ZG',    'Inflação',                    'eco', False, 1),
+        ('GC.DOD.TOTL.GD.ZS', 'Dívida do governo central',   'eco', False, 1),
+        ('SI.POV.DDAY',       'Pobreza extrema',             'soc', False, 1),
+        ('SI.POV.GINI',       'Índice de Gini',              'soc', False, 1),
+        ('DERIV.B40.SHARE',   'Renda dos 40% mais pobres',   'soc', True,  1),
+        ('SP.DYN.IMRT.IN',    'Mortalidade infantil',        'soc', False, 1),
+        ('SH.STA.BASS.ZS',    'Saneamento básico',           'soc', True,  1),
+        ('SE.SEC.CUAT.UP.ZS', 'Ensino médio completo (25+)', 'soc', True,  1),
+        ('SN.ITK.MSFI.ZS',    'Insegurança alimentar',       'soc', False, 1),
+        ('VC.IHR.PSRC.P5',    'Homicídios',                  'soc', False, 1),
+    ]
+    SEIS = [i for i in LARGADA]                 # os seis pares da regra da largada
+    TODOS = ['BRA'] + SEIS
+
+    def ponta(s, a, b):
+        w = s.loc[[y for y in s.index if a <= y <= b]].dropna()
+        return float(w.mean()) if len(w) else None
+
+    D['placar'] = {'pares': [NOMES[i] for i in SEIS], 'linhas': []}
+    for code, rot, bloco, maior, dec in PLACAR:
+        pv = df[df.indicador == code].pivot_table(index='ano', columns='iso', values='valor')
+        ini = {i: ponta(pv[i].dropna(), 1999, 2003) for i in TODOS if i in pv.columns}
+        fim = {i: ponta(pv[i].dropna(), 2021, 2025) for i in TODOS if i in pv.columns}
+        ini = {k: v for k, v in ini.items() if v is not None}
+        fim = {k: v for k, v in fim.items() if v is not None}
+        if 'BRA' not in fim or len(fim) < 5:
+            continue
+        ordem = sorted(fim, key=lambda i: -fim[i] if maior else fim[i])
+        linha = {'ind': rot, 'bloco': bloco, 'dec': dec,
+                 'br': round(fim['BRA'], dec),
+                 'rank_niv': ordem.index('BRA') + 1, 'n_niv': len(fim),
+                 'melhor': NOMES[ordem[0]], 'rank_var': None, 'n_var': 0}
+        comuns = [i for i in TODOS if i in ini and i in fim]
+        if 'BRA' in comuns and len(comuns) >= 5:
+            var = {i: fim[i] - ini[i] for i in comuns}
+            ordem_v = sorted(var, key=lambda i: -var[i] if maior else var[i])
+            linha.update({'rank_var': ordem_v.index('BRA') + 1, 'n_var': len(comuns)})
+        D['placar']['linhas'].append(linha)
+
     # --- insegurança alimentar ---
     D['fome'] = {}
     for iso in ['BRA'] + LAC + ['IDN', 'ZAF']:
