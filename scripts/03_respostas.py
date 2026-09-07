@@ -185,8 +185,16 @@ def main():
         if 'BRA' not in fim or len(fim) < 5:
             continue
         ordem = sorted(fim, key=lambda i: -fim[i] if maior else fim[i])
+        # mediana dos seis pares, para a tabela mostrar valor contra valor em vez
+        # de posição contra posição
+        par_i = [ini[i] for i in SEIS if i in ini]
+        par_f = [fim[i] for i in SEIS if i in fim]
         linha = {'ind': rot, 'bloco': bloco, 'sub': sub, 'dec': dec,
                  'br': round(fim['BRA'], dec),
+                 'br_ini': round(ini['BRA'], dec) if 'BRA' in ini else None,
+                 'br_fim': round(fim['BRA'], dec),
+                 'par_ini': round(float(np.median(par_i)), dec) if par_i else None,
+                 'par_fim': round(float(np.median(par_f)), dec) if par_f else None,
                  'rank_niv': ordem.index('BRA') + 1, 'n_niv': len(fim),
                  'melhor': NOMES[ordem[0]], 'rank_var': None, 'n_var': 0}
         comuns = [i for i in TODOS if i in ini and i in fim]

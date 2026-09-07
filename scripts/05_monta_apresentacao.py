@@ -556,7 +556,7 @@ S.push(`
 S.push(`
 <div class="eyebrow">Fechamento</div>
 <h2>O placar contra os seis pares que largaram junto</h2>
-<p class="mute" style="font-size:.86rem">Argentina, Chile, Colômbia, México, Turquia e África do Sul — os seis países com renda per capita parecida com a do Brasil em 2000. Não é mediana de grupo: são os seis, um a um. <b>Onde está</b> é a posição do Brasil no nível de hoje (média 2021&ndash;2025). <b>Para onde foi</b> é a posição na variação desde 2000. Verde é terço de cima, vermelho é terço de baixo.</p>
+<p class="mute" style="font-size:.86rem">Onde o Brasil estava em 2000 e onde está hoje, com os seis pares na mesma régua. <b>Pares</b> é a mediana de Argentina, Chile, Colômbia, México, Turquia e África do Sul — os seis países com renda per capita parecida com a do Brasil em 2000. Pontas suavizadas por média de três anos: 2000 é a média de 1999&ndash;2003, 2025 é a média de 2021&ndash;2025. A última coluna é a posição do Brasil entre os sete hoje: verde é terço de cima, vermelho é terço de baixo.</p>
 <h3 style="margin-top:1.4vh">Indicadores econômicos</h3>
 __TAB_PLACAR_ECO__
 <h3 style="margin-top:1.8vh">Indicadores sociais</h3>
@@ -566,11 +566,12 @@ __TAB_PLACAR_SOC__
 S.push(`
 <div class="eyebrow">Fechamento</div>
 <h2>O Brasil entregou serviço público sem construir a economia que o paga</h2>
-<p class="lede" style="margin-top:1.2vh">Contra os seis países que largaram junto com ele, desde 2000:</p>
+<p class="lede" style="margin-top:1.2vh">O quanto o Brasil andou entre 2000 e 2025, comparado com os seis que largaram junto:</p>
 <div class="chartwrap" style="margin-top:1.6vh">__ESCALA_VEREDITO__</div>
 <div class="note" style="margin-top:1.2vh">O que mais surpreende é a linha do meio. <b>Em distribuição de renda o Brasil ficou igual aos pares</b>, não à frente: pobreza, Gini e renda dos 40% mais pobres estão todos a menos de 0,05 desvio da mediana do grupo. Argentina, Chile, Colômbia e México também distribuíram no período. O destaque brasileiro em distribuição só aparece quando a comparação é contra a mediana do G20, que inclui países que largaram muito abaixo.</div>
 <div class="defs">
-<div><b>Como ler a barra.</b> É a posição média do Brasil entre os sete países, em cada recorte, na variação desde 2000. Quanto mais longe do centro, maior a distância para a mediana do grupo. O nível de hoje aparece embaixo do rótulo porque quase sempre diverge: o Brasil melhorou rápido, mas partiu de trás e em vários indicadores ainda não alcançou.</div>
+<div><b>Como ler a barra.</b> É a posição média do Brasil entre os sete países, em cada recorte, considerando <b>o quanto cada um andou</b> entre 2000 e 2025. Quanto mais longe do centro, maior a distância para a mediana do grupo.</div>
+<div><b>Andar rápido não é ter chegado.</b> Esta página mede movimento, não posição final. Os números de onde cada um estava e onde está agora estão na tabela da página anterior: o Brasil melhorou mais rápido que os pares na maioria dos indicadores sociais, mas partiu de trás e em quase todos ainda está atrás do grupo hoje.</div>
 <div><b>Posição alta com margem pequena é empate.</b> O Brasil é 2º em queda de homicídios, mas a 0,24 desvio da mediana e a 2 desvios da Colômbia. Por isso o veredito usa distância, e não só o lugar no ranking.</div>
 <div><b>O que isto não responde.</b> Nada aqui é causal, e são só sete países. Falta toda a desagregação por raça, região e gênero: numa análise sobre o Brasil, a diferença interna pode ser maior que qualquer diferença contra a Turquia.</div>
 </div>
@@ -768,25 +769,29 @@ function escalaVeredito(recortes){
     const cor = Math.abs(dev) < 0.06 ? '#54707E' : (dev > 0 ? '#8FC7A8' : '#DE8A76');
     g += '<text x="'+labW+'" y="'+(y+18)+'" fill="#D3D0C7" font-size="15" font-family="IBM Plex Sans" text-anchor="end">'+l.titulo+'</text>';
     g += '<rect x="'+(dev>0?meio:meio-larg)+'" y="'+y+'" width="'+Math.max(larg,2)+'" height="'+bh+'" fill="'+cor+'" rx="2"/>';
-    g += '<text x="'+colV+'" y="'+(y+13)+'" fill="'+cor+'" font-size="16" font-family="IBM Plex Sans" font-weight="600">'+l.va.rotulo+'</text>';
-    if(l.ni) g += '<text x="'+colV+'" y="'+(y+29)+'" fill="#5E7480" font-size="11.5" font-family="IBM Plex Sans">no nível de hoje: '+l.ni.rotulo+'</text>';
+    g += '<text x="'+colV+'" y="'+(y+20)+'" fill="'+cor+'" font-size="17" font-family="IBM Plex Sans" font-weight="600">'+l.va.rotulo+'</text>';
   });
   return g+'</svg>';
 }
 /* placar: uma linha por indicador, com a posição do Brasil entre os sete países.
    Verde para o terço de cima, vermelho para o terço de baixo, cinza no meio. */
 function placarTabela(bloco){
-  const cor = (r,n) => r===null ? 'mute' : (r<=Math.ceil(n/3) ? 'good' : (r>n-Math.ceil(n/3) ? 'bad' : 'mute'));
-  const cel = (r,n) => r===null ? '<td class="n mute">sem base</td>'
-    : '<td class="n '+cor(r,n)+'">'+r+'º <span class="mute" style="font-size:.82em">de '+n+'</span></td>';
-  let h='<table><tr><th>Indicador</th><th style="text-align:right">Brasil hoje</th>'
-       +'<th style="text-align:right">Onde está</th><th style="text-align:right">Para onde foi</th>'
-       +'<th>Melhor do grupo</th></tr>';
+  const num = (v,d) => v===null||v===undefined ? '—'
+    : Number(v).toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});
+  const cor = (r,n) => r<=Math.ceil(n/3) ? 'good' : (r>n-Math.ceil(n/3) ? 'bad' : 'mute');
+  let h='<table><tr><th>Indicador</th>'
+       +'<th style="text-align:right;color:var(--br)">Brasil 2000</th>'
+       +'<th style="text-align:right;color:var(--br)">Brasil 2025</th>'
+       +'<th style="text-align:right">Pares 2000</th><th style="text-align:right">Pares 2025</th>'
+       +'<th style="text-align:right">Brasil hoje</th></tr>';
   D.placar.linhas.filter(l=>l.bloco===bloco).forEach(l=>{
     h+='<tr><td>'+l.ind+'</td>'
-      +'<td class="n mute">'+Number(l.br).toLocaleString('pt-BR',{minimumFractionDigits:l.dec,maximumFractionDigits:l.dec})+'</td>'
-      +cel(l.rank_niv,l.n_niv)+cel(l.rank_var,l.n_var)
-      +'<td class="mute">'+l.melhor+'</td></tr>';
+      +'<td class="n mute">'+num(l.br_ini,l.dec)+'</td>'
+      +'<td class="n" style="color:#F1EEE5">'+num(l.br_fim,l.dec)+'</td>'
+      +'<td class="n mute">'+num(l.par_ini,l.dec)+'</td>'
+      +'<td class="n mute">'+num(l.par_fim,l.dec)+'</td>'
+      +'<td class="n '+cor(l.rank_niv,l.n_niv)+'">'+l.rank_niv+'º <span class="mute" style="font-size:.82em">de '+l.n_niv+'</span></td>'
+      +'</tr>';
   });
   return h+'</table>';
 }
