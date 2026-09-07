@@ -149,22 +149,24 @@ def main():
     # Não é mediana de grupo: são os seis países, um a um. Duas leituras por
     # indicador, porque elas divergem: onde o Brasil ESTÁ (nível hoje) e para
     # onde o Brasil FOI (variação no período).
-    PLACAR = [   # codigo, rotulo, bloco, maior_e_melhor, casas decimais
-        ('NY.GDP.PCAP.PP.KD', 'PIB per capita (PPC)',        'eco', True,  0),
-        ('SL.GDP.PCAP.EM.KD', 'Produtividade por ocupado',   'eco', True,  0),
-        ('NE.GDI.TOTL.ZS',    'Investimento sobre PIB',      'eco', True,  1),
-        ('NE.TRD.GNFS.ZS',    'Comércio sobre PIB',          'eco', True,  1),
-        ('SL.UEM.TOTL.ZS',    'Desemprego',                  'eco', False, 1),
-        ('FP.CPI.TOTL.ZG',    'Inflação',                    'eco', False, 1),
-        ('GC.DOD.TOTL.GD.ZS', 'Dívida do governo central',   'eco', False, 1),
-        ('SI.POV.DDAY',       'Pobreza extrema',             'soc', False, 1),
-        ('SI.POV.GINI',       'Índice de Gini',              'soc', False, 1),
-        ('DERIV.B40.SHARE',   'Renda dos 40% mais pobres',   'soc', True,  1),
-        ('SP.DYN.IMRT.IN',    'Mortalidade infantil',        'soc', False, 1),
-        ('SH.STA.BASS.ZS',    'Saneamento básico',           'soc', True,  1),
-        ('SE.SEC.CUAT.UP.ZS', 'Ensino médio completo (25+)', 'soc', True,  1),
-        ('SN.ITK.MSFI.ZS',    'Insegurança alimentar',       'soc', False, 1),
-        ('VC.IHR.PSRC.P5',    'Homicídios',                  'soc', False, 1),
+    # O bloco econômico é dividido em capacidade e estabilidade de propósito: o
+    # Brasil vai mal em uma e bem na outra, e a média das duas esconde as duas.
+    PLACAR = [   # codigo, rotulo, bloco, subbloco, maior_e_melhor, casas decimais
+        ('NY.GDP.PCAP.PP.KD', 'PIB per capita (PPC)',        'eco', 'capacidade',   True,  0),
+        ('SL.GDP.PCAP.EM.KD', 'Produtividade por ocupado',   'eco', 'capacidade',   True,  0),
+        ('NE.GDI.TOTL.ZS',    'Investimento sobre PIB',      'eco', 'capacidade',   True,  1),
+        ('NE.TRD.GNFS.ZS',    'Comércio sobre PIB',          'eco', 'capacidade',   True,  1),
+        ('SL.UEM.TOTL.ZS',    'Desemprego',                  'eco', 'estabilidade', False, 1),
+        ('FP.CPI.TOTL.ZG',    'Inflação',                    'eco', 'estabilidade', False, 1),
+        ('GC.DOD.TOTL.GD.ZS', 'Dívida do governo central',   'eco', 'estabilidade', False, 1),
+        ('SI.POV.DDAY',       'Pobreza extrema',             'soc', 'distribuição', False, 1),
+        ('SI.POV.GINI',       'Índice de Gini',              'soc', 'distribuição', False, 1),
+        ('DERIV.B40.SHARE',   'Renda dos 40% mais pobres',   'soc', 'distribuição', True,  1),
+        ('SP.DYN.IMRT.IN',    'Mortalidade infantil',        'soc', 'serviços',     False, 1),
+        ('SH.STA.BASS.ZS',    'Saneamento básico',           'soc', 'serviços',     True,  1),
+        ('SE.SEC.CUAT.UP.ZS', 'Ensino médio completo (25+)', 'soc', 'serviços',     True,  1),
+        ('SN.ITK.MSFI.ZS',    'Insegurança alimentar',       'soc', 'serviços',     False, 1),
+        ('VC.IHR.PSRC.P5',    'Homicídios',                  'soc', 'serviços',     False, 1),
     ]
     SEIS = [i for i in LARGADA]                 # os seis pares da regra da largada
     TODOS = ['BRA'] + SEIS
@@ -174,7 +176,7 @@ def main():
         return float(w.mean()) if len(w) else None
 
     D['placar'] = {'pares': [NOMES[i] for i in SEIS], 'linhas': []}
-    for code, rot, bloco, maior, dec in PLACAR:
+    for code, rot, bloco, sub, maior, dec in PLACAR:
         pv = df[df.indicador == code].pivot_table(index='ano', columns='iso', values='valor')
         ini = {i: ponta(pv[i].dropna(), 1999, 2003) for i in TODOS if i in pv.columns}
         fim = {i: ponta(pv[i].dropna(), 2021, 2025) for i in TODOS if i in pv.columns}
@@ -183,7 +185,7 @@ def main():
         if 'BRA' not in fim or len(fim) < 5:
             continue
         ordem = sorted(fim, key=lambda i: -fim[i] if maior else fim[i])
-        linha = {'ind': rot, 'bloco': bloco, 'dec': dec,
+        linha = {'ind': rot, 'bloco': bloco, 'sub': sub, 'dec': dec,
                  'br': round(fim['BRA'], dec),
                  'rank_niv': ordem.index('BRA') + 1, 'n_niv': len(fim),
                  'melhor': NOMES[ordem[0]], 'rank_var': None, 'n_var': 0}
@@ -191,8 +193,59 @@ def main():
         if 'BRA' in comuns and len(comuns) >= 5:
             var = {i: fim[i] - ini[i] for i in comuns}
             ordem_v = sorted(var, key=lambda i: -var[i] if maior else var[i])
-            linha.update({'rank_var': ordem_v.index('BRA') + 1, 'n_var': len(comuns)})
+            # distância do Brasil à mediana do grupo, em desvios-padrão do grupo:
+            # a posição no ranking lisonjeia mais do que a margem real, e a margem
+            # é o que separa "melhor" de "muito melhor".
+            vals = np.array(list(var.values()))
+            sd = float(vals.std(ddof=1))
+            dp = (var['BRA'] - float(np.median(vals))) / sd * (1 if maior else -1) if sd else 0.0
+            linha.update({'rank_var': ordem_v.index('BRA') + 1, 'n_var': len(comuns),
+                          'dp_var': round(dp, 2)})
         D['placar']['linhas'].append(linha)
+
+    # --- veredito graduado, por bloco e por leitura ---
+    # Percentil de posição: 0 = melhor do grupo, 0,5 = exatamente no meio, 1 = pior.
+    # A escala é declarada aqui, antes de olhar o resultado, para não escolher o
+    # rótulo depois de ver o número.
+    ESCALA = [(0.00, 'muito melhor'), (0.18, 'melhor'), (0.34, 'levemente melhor'),
+              (0.44, 'praticamente igual'), (0.56, 'levemente pior'),
+              (0.66, 'pior'), (0.82, 'muito pior')]
+
+    def rotula(p):
+        nome = ESCALA[0][1]
+        for corte, r in ESCALA:
+            if p >= corte:
+                nome = r
+        return nome
+
+    RECORTES = [('soc', None, 'Social'), ('soc', 'distribuição', 'Social · distribuição'),
+                ('soc', 'serviços', 'Social · serviços e segurança'),
+                ('eco', None, 'Econômico'), ('eco', 'capacidade', 'Econômico · capacidade'),
+                ('eco', 'estabilidade', 'Econômico · estabilidade')]
+
+    D['placar']['veredito'] = []
+    for (bloco, sub, titulo), (leitura, campo_r, campo_n) in [
+            (r, l) for r in RECORTES
+            for l in [('variação', 'rank_var', 'n_var'), ('nível', 'rank_niv', 'n_niv')]]:
+        pcts, dps = [], []
+        for l in D['placar']['linhas']:
+            if l['bloco'] != bloco or (sub and l['sub'] != sub) or not l.get(campo_r) or l[campo_n] < 2:
+                continue
+            pcts.append((l[campo_r] - 1) / (l[campo_n] - 1))
+            if leitura == 'variação' and l.get('dp_var') is not None:
+                dps.append(l['dp_var'])
+        if len(pcts) < 2:
+            continue
+        p = float(np.mean(pcts))
+        D['placar']['veredito'].append({
+            'bloco': bloco, 'sub': sub, 'titulo': titulo,
+            'leitura': leitura, 'n': len(pcts),
+            'pct': round(p, 3), 'rotulo': rotula(p),
+            'dp': round(float(np.mean(dps)), 2) if dps else None,
+            # quantos indicadores estão, na prática, em cima da mediana do grupo
+            'na_mediana': sum(1 for d in dps if abs(d) < 0.25) if dps else None,
+        })
+    D['placar']['escala'] = [r for _, r in ESCALA]
 
     # --- insegurança alimentar ---
     D['fome'] = {}
